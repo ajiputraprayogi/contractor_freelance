@@ -10,18 +10,18 @@ export default function Navbar({
   brand = "Monarch",
   links = [
     { label: "Beranda", href: "/" },
-    { label: "Harga & Layanan", href: "/pricing" },
-    { label: "Portfolio", href: "/portfolio" },
-    {
-      label: "Profil",
-      dropdown: [
-        { label: "Tentang Perusahaan", href: "/profile" },
-        { label: "Tentang Tim", href: "/team" },
-        // { label: "Penghargaan", href: "/awards" },
-      ],
-    },
-    { label: "Informasi", href: "/information" },
-    { label: "Kontak", href: "/contact" },
+    // { label: "Harga & Layanan", href: "/pricing" },
+    // { label: "Portfolio", href: "/portfolio" },
+    // {
+    //   label: "Profil",
+    //   dropdown: [
+    //     { label: "Tentang Perusahaan", href: "/profile" },
+    //     { label: "Tentang Tim", href: "/team" },
+    //     // { label: "Penghargaan", href: "/awards" },
+    //   ],
+    // },
+    // { label: "Informasi", href: "/information" },
+    // { label: "Kontak", href: "/contact" },
   ],
 }) {
   const [open, setOpen] = useState(false);
@@ -35,7 +35,7 @@ export default function Navbar({
 
   return (
     <header className="fixed top-4 left-0 right-0 z-50 px-4 md:px-8">
-      <nav className="mx-auto w-full bg-white/6 backdrop-blur-md border border-white/15 rounded-2xl px-4 py-3 flex items-center justify-between gap-4">
+      <nav className="mx-auto w-full bg-black/7 backdrop-blur-md border border-white/15 rounded-2xl px-4 py-3 flex items-center justify-between gap-4">
         {/* Brand */}
         <div className="flex items-center gap-3">
           <span className="w-9 h-9 rounded-full flex items-center justify-center overflow-hidden">
