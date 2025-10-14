@@ -3,6 +3,7 @@
 import { useRef } from "react";
 import HeroSection from "./components/section/home/heroSection";
 import DesignCategories from "./components/section/home/card";
+import FurnitureHero from "./components/section/home/furniture";
 
 export default function HomePage() {
   const sectionRef = useRef<HTMLDivElement | null>(null);
@@ -19,6 +20,9 @@ export default function HomePage() {
       <div ref={sectionRef}>
         <DesignCategories />
       </div>
+
+      {/* Furniture */}
+      <FurnitureHero/>
     </div>
   );
 }

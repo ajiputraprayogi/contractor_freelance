@@ -12,7 +12,7 @@ const categories = [
   {
     title: "Desain Kontemporer",
     subtitle: "Minimalist Vibe",
-    image: "/images/design/home2.jpg",
+    image: "/images/design/home2.png",
   },
   {
     title: "Ceramics Design",
@@ -22,7 +22,7 @@ const categories = [
   {
     title: "Desain Aersial",
     subtitle: "Kombinasi Natural",
-    image: "/images/design/home1.jpg",
+    image: "/images/design/home4.png",
   },
 ];
 
