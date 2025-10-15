@@ -17,7 +17,7 @@ const layananList = [
     },
     {
         label: "Desain Interior",
-        image: "/images/design/home2.jpg",
+        image: "/images/design/home2.png",
         desc: "Interior kami fokus pada harmoni, pencahayaan alami, dan karakter unik setiap ruangan.",
         fitur: [
             "Pemilihan furnitur dan dekorasi",
@@ -107,55 +107,59 @@ export default function LayananPage() {
                 </div>
 
                 {/* Box deskripsi */}
-{/* Box deskripsi */}
-<motion.div
-  key={active.desc}
-  initial={{ opacity: 0, y: 10 }}
-  animate={{ opacity: 1, y: 0 }}
-  transition={{ duration: 0.4 }}
-  className="h-[350px] md:h-[420px] flex flex-col justify-between text-sm md:text-base leading-relaxed text-[#2E2B25]/90 border border-[#C9A77A]/40 rounded-2xl p-6 bg-[#2E2B25]/5"
->
-  {/* Bagian atas: deskripsi + fitur */}
-  <div>
-    <p className="mb-4">{active.desc}</p>
-    <ul className="list-decimal list-inside space-y-2 text-[#2E2B25]/80">
-      {active.fitur.map((f, i) => (
-        <li key={i}>{f}</li>
-      ))}
-    </ul>
-  </div>
+                {/* Box deskripsi */}
+                <motion.div
+                    // key={active.desc}
+                    // initial={{ opacity: 0, y: 10 }}
+                    // animate={{ opacity: 1, y: 0 }}
+                    // transition={{ duration: 0.4 }}
+                    className="h-[350px] md:h-[420px] flex flex-col justify-between text-sm md:text-base leading-relaxed text-[#2E2B25]/90 border border-[#C9A77A]/40 rounded-2xl p-6 bg-[#2E2B25]/5"
+                >
+                    {/* Bagian atas: deskripsi + fitur */}
+                    <motion.div
+                    key={active.desc}
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.4 }}>
+                        <p className="mb-4">{active.desc}</p>
+                        <ul className="list-decimal list-inside space-y-2 text-[#2E2B25]/80">
+                            {active.fitur.map((f, i) => (
+                                <li key={i}>{f}</li>
+                            ))}
+                        </ul>
+                    </motion.div>
 
-  {/* Dua tombol animasi di bawah */}
-  <div className="mt-6 grid grid-cols-2 gap-3">
-    {/* Tombol Full View */}
-    <button
-      onClick={() => window.open(active.image, "_blank")}
-      className="group relative inline-flex items-center justify-center overflow-hidden rounded-bl-md bg-[#D7B899] font-medium w-full transition-all duration-500 hover:scale-[1.03]"
-    >
-      <div className="inline-flex h-12 items-center justify-center px-6 text-[#2E2B25] transition-all duration-500 group-hover:-translate-y-[150%]">
-        Full View
-      </div>
-      <div className="absolute inline-flex h-24 w-full translate-y-[100%] items-center justify-center text-[#2E2B25] transition-all duration-500 group-hover:translate-y-0">
-        <span className="absolute h-full w-full translate-y-full skew-y-12 scale-y-0 bg-[#C9A77A] transition-all duration-500 group-hover:translate-y-0 group-hover:scale-150"></span>
-        <span className="z-10 px-6">Lihat Detail</span>
-      </div>
-    </button>
+                    {/* Dua tombol animasi di bawah */}
+                    <div className="mt-6 grid grid-cols-2 gap-3">
+                        {/* Tombol Full View */}
+                        <button
+                            onClick={() => window.open(active.image, "_blank")}
+                            className="group relative inline-flex items-center justify-center overflow-hidden rounded-bl-md bg-[#D7B899] font-medium w-full transition-all duration-500 hover:scale-[1.03]"
+                        >
+                            <div className="inline-flex h-12 items-center justify-center px-6 text-[#2E2B25] transition-all duration-500 group-hover:-translate-y-[150%]">
+                                Full View
+                            </div>
+                            <div className="absolute inline-flex h-24 w-full translate-y-[100%] items-center justify-center text-[#2E2B25] transition-all duration-500 group-hover:translate-y-0">
+                                <span className="absolute h-full w-full translate-y-full skew-y-12 scale-y-0 bg-[#C9A77A] transition-all duration-500 group-hover:translate-y-0 group-hover:scale-150"></span>
+                                <span className="z-10 px-6">Lihat Detail</span>
+                            </div>
+                        </button>
 
-    {/* Tombol Hubungi Admin */}
-    <button
-      onClick={() => (window.location.href = 'https://wa.me/6285812209767')}
-      className="group relative inline-flex items-center justify-center overflow-hidden rounded-br-md bg-[#D7B899] font-medium w-full transition-all duration-500 hover:scale-[1.03]"
-    >
-      <div className="inline-flex h-12 items-center justify-center px-6 text-[#2E2B25] transition-all duration-500 group-hover:-translate-y-[150%]">
-        Hubungi Admin
-      </div>
-      <div className="absolute inline-flex h-24 w-full translate-y-[100%] items-center justify-center text-[#2E2B25] transition-all duration-500 group-hover:translate-y-0">
-        <span className="absolute h-full w-full translate-y-full skew-y-12 scale-y-0 bg-[#C9A77A] transition-all duration-500 group-hover:translate-y-0 group-hover:scale-150"></span>
-        <span className="z-10 px-6">Chat Sekarang</span>
-      </div>
-    </button>
-  </div>
-</motion.div>
+                        {/* Tombol Hubungi Admin */}
+                        <button
+                            onClick={() => (window.location.href = 'https://wa.me/6285812209767')}
+                            className="group relative inline-flex items-center justify-center overflow-hidden rounded-br-md bg-[#D7B899] font-medium w-full transition-all duration-500 hover:scale-[1.03]"
+                        >
+                            <div className="inline-flex h-12 items-center justify-center px-6 text-[#2E2B25] transition-all duration-500 group-hover:-translate-y-[150%]">
+                                Hubungi Admin
+                            </div>
+                            <div className="absolute inline-flex h-24 w-full translate-y-[100%] items-center justify-center text-[#2E2B25] transition-all duration-500 group-hover:translate-y-0">
+                                <span className="absolute h-full w-full translate-y-full skew-y-12 scale-y-0 bg-[#C9A77A] transition-all duration-500 group-hover:translate-y-0 group-hover:scale-150"></span>
+                                <span className="z-10 px-6">Chat Sekarang</span>
+                            </div>
+                        </button>
+                    </div>
+                </motion.div>
 
 
             </section>
