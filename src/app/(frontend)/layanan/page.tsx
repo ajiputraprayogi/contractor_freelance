@@ -3,6 +3,7 @@
 import React, { useState } from "react";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
+import StepSection from "../components/section/layanan/step";
 
 const layananList = [
     {
@@ -56,8 +57,8 @@ export default function LayananPage() {
             style={{ backgroundColor: "#F7F4EF", color: "#2E2B25" }}
         >
             {/* Heading */}
-            <div className="text-center mb-12">
-                <h1 className="text-3xl md:text-5xl font-semibold tracking-tight mb-3 text-[#2E2B25]">
+            <div className="text-center mb-8">
+                <h1 className="text-3xl md:text-5xl font-semibold tracking-tight mb-3 text-[#2E2B25] mt-5">
                     Jenis Desain
                 </h1>
                 <p className="text-sm md:text-base text-[#2E2B25]/70">
@@ -117,10 +118,10 @@ export default function LayananPage() {
                 >
                     {/* Bagian atas: deskripsi + fitur */}
                     <motion.div
-                    key={active.desc}
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.4 }}>
+                        key={active.desc}
+                        initial={{ opacity: 0, y: 10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.4 }}>
                         <p className="mb-4">{active.desc}</p>
                         <ul className="list-decimal list-inside space-y-2 text-[#2E2B25]/80">
                             {active.fitur.map((f, i) => (
@@ -134,34 +135,47 @@ export default function LayananPage() {
                         {/* Tombol Full View */}
                         <button
                             onClick={() => window.open(active.image, "_blank")}
-                            className="group relative inline-flex items-center justify-center overflow-hidden rounded-bl-md bg-[#D7B899] font-medium w-full transition-all duration-500 hover:scale-[1.03]"
+                            className="cursor-pointer group relative inline-flex items-center justify-center overflow-hidden rounded-bl-md bg-[#D7B899] font-medium w-full transition-all duration-500 hover:scale-[1.03]"
                         >
                             <div className="inline-flex h-12 items-center justify-center px-6 text-[#2E2B25] transition-all duration-500 group-hover:-translate-y-[150%]">
                                 Full View
                             </div>
                             <div className="absolute inline-flex h-24 w-full translate-y-[100%] items-center justify-center text-[#2E2B25] transition-all duration-500 group-hover:translate-y-0">
                                 <span className="absolute h-full w-full translate-y-full skew-y-12 scale-y-0 bg-[#C9A77A] transition-all duration-500 group-hover:translate-y-0 group-hover:scale-150"></span>
-                                <span className="z-10 px-6">Lihat Detail</span>
+                                <span className="z-10 px-6">Detail</span>
                             </div>
                         </button>
 
                         {/* Tombol Hubungi Admin */}
                         <button
                             onClick={() => (window.location.href = 'https://wa.me/6285812209767')}
-                            className="group relative inline-flex items-center justify-center overflow-hidden rounded-br-md bg-[#D7B899] font-medium w-full transition-all duration-500 hover:scale-[1.03]"
+                            className="cursor-pointer group relative inline-flex items-center justify-center overflow-hidden rounded-br-md bg-[#D7B899] font-medium w-full transition-all duration-500 hover:scale-[1.03]"
                         >
                             <div className="inline-flex h-12 items-center justify-center px-6 text-[#2E2B25] transition-all duration-500 group-hover:-translate-y-[150%]">
-                                Hubungi Admin
+                                Hubungi
                             </div>
                             <div className="absolute inline-flex h-24 w-full translate-y-[100%] items-center justify-center text-[#2E2B25] transition-all duration-500 group-hover:translate-y-0">
                                 <span className="absolute h-full w-full translate-y-full skew-y-12 scale-y-0 bg-[#C9A77A] transition-all duration-500 group-hover:translate-y-0 group-hover:scale-150"></span>
-                                <span className="z-10 px-6">Chat Sekarang</span>
+                                <span className="z-10 px-6">Admin</span>
                             </div>
                         </button>
                     </div>
                 </motion.div>
 
 
+            </section>
+
+            {/* Step Section */}
+            <section>
+                <div className="text-center mb-12 mt-12 md:mt-20">
+                    <h1 className="text-3xl md:text-5xl font-semibold tracking-tight mb-3 text-[#2E2B25]">
+                        Tahapan Order
+                    </h1>
+                    <p className="text-sm md:text-base text-[#2E2B25]/70">
+                        Berikut skema layanan yang tersedia
+                    </p>
+                </div>
+                <StepSection />
             </section>
         </main>
     );
