@@ -5,6 +5,7 @@ import GradualBlur from "./components/layout/gradual";
 import Navbar from "./components/layout/Navbar";
 import AOSInitializer from "./components/layout/AOSinitializer";
 import { Outfit } from "next/font/google";
+import Footer from "./components/layout/Footer";
 
 const outfit = Outfit({
   subsets: ["latin"],
@@ -29,10 +30,11 @@ export default function RootLayout({
       <body className={outfit.className}>
         <AOSInitializer />
         <section className="relative min-h-screen overflow-hidden">
-          <div className="h-full">
+          <div className="h-full bg-[#F7F4EF]">
             <Navbar />
             {/* <div className="mb-10" /> */}
             {children}
+            <Footer />
           </div>
           <div className="fixed bottom-0 left-0 w-full pointer-events-none">
             <GradualBlur

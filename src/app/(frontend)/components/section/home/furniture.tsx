@@ -7,7 +7,7 @@ import ButtonUp from "../../atomic/buttonUp";
 
 export default function FurnitureHero() {
     return (
-        <section className="w-full bg-[#f9f8f6] text-[#1a1a1a] overflow-hidden mb-[50rem]">
+        <section className="w-full text-[#1a1a1a] overflow-hidden">
             {/* Text Section */}
             <div className="max-w-6xl mx-auto px-6 pt-20 pb-10 text-center md:text-left">
                 <motion.h1
@@ -43,7 +43,8 @@ export default function FurnitureHero() {
           >
             Berminat?
           </Link> */}
-                    <button
+                    <Link
+                        href="/kontak"
                         //   onClick={onExploreClick}
                         className=" cursor-pointer group relative inline-flex items-center justify-center overflow-hidden rounded-3xl bg-[#D7B899] font-medium w-auto transition-all duration-500 hover:scale-[1.03]"
                     >
@@ -56,7 +57,7 @@ export default function FurnitureHero() {
                             <span className="z-10 px-8">Let&apos;s Go</span>
 
                         </div>
-                    </button>
+                    </Link>
 
                     {/* <button className="flex items-center gap-2 text-sm text-[#1a1a1a] hover:text-[#BFA98E] transition">
             <span className="w-10 h-10 rounded-full border border-[#1a1a1a] flex items-center justify-center hover:border-[#BFA98E] transition">
@@ -67,17 +68,14 @@ export default function FurnitureHero() {
                 </motion.div>
             </div>
 
-            <motion.div
+            {/* <motion.div
                 initial={{ opacity: 0, y: 40 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 1, delay: 0.4 }}
-                className="relative w-full h-[320px] md:h-[480px] flex justify-center items-center px-10 md:px-20 overflow-hidden"
+                className="relative w-full h-screen md:h-screen flex justify-center items-center px-10 md:px-20 overflow-hidden"
             >
-                {/* Background setengah warna */}
                 <div className="absolute inset-0 bg-gradient-to-b from-[#f9f8f6] from-50% to-[#111] to-50%" />
-
-                {/* Frame gambar */}
-                <div className="relative w-full h-[260px] md:h-[400px] overflow-hidden rounded-2xl shadow-lg">
+                <div className="relative w-full h-[260px] md:h-screen overflow-hidden rounded-2xl shadow-lg">
                     <Image
                         src="/images/design/home1.jpg"
                         alt="Dining Table"
@@ -86,7 +84,7 @@ export default function FurnitureHero() {
                         priority
                     />
                 </div>
-            </motion.div>
+            </motion.div> */}
 
 
 
