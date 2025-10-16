@@ -50,7 +50,7 @@ export default function ErrorPage() {
 
           <div className="absolute inline-flex h-24 w-full translate-y-[100%] items-center justify-center text-[#2E2B25] transition-all duration-500 group-hover:translate-y-0">
             <span className="absolute h-full w-full translate-y-full skew-y-12 scale-y-0 bg-[#C9A77A] transition-all duration-500 group-hover:translate-y-0 group-hover:scale-150"></span>
-            <span className="z-10 px-8">Gaskeun 🚀</span>
+            <span className="z-10 px-8">Gaskeun</span>
           </div>
         </Link>
       </div>
