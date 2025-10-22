@@ -86,7 +86,7 @@ export default function LayananPage() {
             {/* Area utama */}
             <section className="grid md:grid-cols-[1.2fr_0.8fr] gap-8 items-stretch max-w-6xl w-full">
                 {/* Box gambar */}
-                <div className="relative h-[350px] md:h-[420px] rounded-2xl overflow-hidden border border-[#C9A77A]/40 bg-[#2E2B25]/5">
+                <div className="relative h-[350px] md:h-[420px] rounded-2xl overflow-hidden border border-[#C9A77A]/40 bg-[#2f3542]/5">
                     <AnimatePresence mode="wait">
                         <motion.div
                             key={active.image}

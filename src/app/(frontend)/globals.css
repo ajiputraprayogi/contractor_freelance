@@ -79,3 +79,17 @@ input {
     inset: 0 35px 35px 0;
   }
 }
+
+.text-primary {
+  color: #F7F4EF;
+}
+.bg-primary{
+  background-color: #F7F4EF;
+}
+.text-brown {
+  color: #2f3542;
+}
+
+button {
+  cursor: pointer;
+}
