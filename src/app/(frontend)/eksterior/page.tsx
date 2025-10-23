@@ -61,7 +61,7 @@ export default function PortfolioPage() {
           Portfolio LANARA Design
         </h1>
         <p className="text-gray-600 mt-4 max-w-2xl mx-auto">
-          Temukan berbagai inspirasi desain arsitektur dan interior yang telah kami buat —
+          Temukan berbagai inspirasi desain arsitektur dan eksterioryang telah kami buat —
           setiap proyek membawa karakter unik dengan sentuhan modern minimalis.
         </p>
       </div>
