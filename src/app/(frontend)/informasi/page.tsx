@@ -5,7 +5,7 @@ import Link from "next/link";
 
 export default function ErrorPage() {
   return (
-    <main className="relative flex flex-col items-center justify-center min-h-screen px-4 sm:px-6 text-center bg-[#F7F4EF] text-[#2E2B25] overflow-hidden">
+    <main className="relative flex flex-col items-center justify-center min-h-screen px-4 sm:px-6 text-center bg-[#a4b0be] text-[#2E2B25] overflow-hidden">
       {/* Animated Circle Background */}
       <motion.div
         initial={{ scale: 0 }}

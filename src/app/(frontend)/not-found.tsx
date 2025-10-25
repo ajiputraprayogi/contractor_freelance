@@ -6,7 +6,7 @@ import Link from "next/link";
 export default function NotFound() {
   return (
     <main
-      className="flex flex-col items-center justify-center min-h-screen px-6 text-center bg-[#F7F4EF] text-[#2E2B25]"
+      className="flex flex-col items-center justify-center min-h-screen px-6 text-center bg-[#a4b0be] text-[#2E2B25]"
     >
       {/* Animated Circle Background */}
       <motion.div

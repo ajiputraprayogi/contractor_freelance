@@ -7,7 +7,7 @@ import Image from "next/image";
 
 export default function Footer() {
   return (
-    <footer className="w-full bg-[#F7F4EF] text-[#2E2B25] border-t border-[#2E2B25]/10 mt-20">
+    <footer className="w-full bg-[#F7F4EF] text-[#2E2B25] border-t border-[#2E2B25]/10">
       <div className="max-w-6xl mx-auto px-6 md:px-10 py-12 flex flex-col md:flex-row items-center justify-between gap-8">
         {/* Left: Logo & Brand */}
         <motion.div
@@ -74,7 +74,7 @@ export default function Footer() {
 
       {/* Bottom Line */}
       <div className=" py-6 text-center text-xs opacity-70 mb-[2rem]">
-        © {new Date().getFullYear()} Lanara Design — Crafted with care & minimalism.
+        © {new Date().getFullYear()} Lanara Design — All Right Reserved.
       </div>
     </footer>
   );
