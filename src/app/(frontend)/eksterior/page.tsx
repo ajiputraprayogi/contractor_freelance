@@ -2,53 +2,36 @@
 
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
-const portfolios = [
-  {
-    title: "American Style",
-    subtitle: "Minimalist Home Decor",
-    image: "/images/design/home1.jpg",
-  },
-  {
-    title: "Desain Kontemporer",
-    subtitle: "Minimalist Vibe",
-    image: "/images/design/home2.png",
-  },
-  {
-    title: "Ceramics Design",
-    subtitle: "Garasi Luas",
-    image: "/images/design/home3.jpg",
-  },
-  {
-    title: "Desain Aersial",
-    subtitle: "Kombinasi Natural",
-    image: "/images/design/home4.png",
-  },
-  {
-    title: "Scandinavian Living",
-    subtitle: "Clean White Space",
-    image: "/images/design/home5.jpg",
-  },
-  {
-    title: "Industrial Loft",
-    subtitle: "Steel & Concrete Concept",
-    image: "/images/design/home6.png",
-  },
-  {
-    title: "Tropical Harmony",
-    subtitle: "Natural Breeze House",
-    image: "/images/design/home7.png",
-  },
-  {
-    title: "Modern Japandi",
-    subtitle: "Serenity & Functionality",
-    image: "/images/design/home8.png",
-  },
-];
+interface PortfolioItem {
+  title: string;
+  subtitle: string;
+  image: string;
+}
 
 export default function PortfolioPage() {
-  const [selected, setSelected] = useState<null | (typeof portfolios)[0]>(null);
+  const [portfolios, setPortfolios] = useState<PortfolioItem[]>([]);
+  const [selected, setSelected] = useState<null | PortfolioItem>(null);
+  const [loading, setLoading] = useState(true);
+
+  // Fetch data dari API dummyapi/eksterior
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const res = await fetch("/dummyapi/eksterior");
+        if (!res.ok) throw new Error("Gagal mengambil data");
+        const data = await res.json();
+        setPortfolios(data);
+      } catch (error) {
+        console.error("Error fetching portfolio:", error);
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    fetchData();
+  }, []);
 
   return (
     <main className="min-h-screen bg-[#F7F4EF] py-20 px-6 mt-4">
@@ -61,39 +44,43 @@ export default function PortfolioPage() {
           Portfolio LANARA Design
         </h1>
         <p className="text-gray-600 mt-4 max-w-2xl mx-auto">
-          Temukan berbagai inspirasi desain arsitektur dan eksterioryang telah kami buat —
+          Temukan berbagai inspirasi desain arsitektur dan interior yang telah kami buat —
           setiap proyek membawa karakter unik dengan sentuhan modern minimalis.
         </p>
       </div>
 
-      {/* Portfolio Grid */}
-      <div className="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
-        {portfolios.map((item, index) => (
-          <motion.div
-            key={index}
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: index * 0.1 }}
-            viewport={{ once: true }}
-            className="group relative overflow-hidden rounded-2xl shadow-sm cursor-pointer"
-            onClick={() => setSelected(item)}
-          >
-            <div className="relative h-[280px] w-full overflow-hidden">
-              <Image
-                src={item.image}
-                alt={item.title}
-                fill
-                className="object-cover group-hover:scale-110 transition-transform duration-700 ease-out"
-              />
-              <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-all duration-500"></div>
-              <div className="absolute bottom-6 left-6 opacity-0 group-hover:opacity-100 transition-all duration-500 text-white">
-                <h3 className="text-lg font-semibold">{item.title}</h3>
-                <p className="text-sm text-gray-200">{item.subtitle}</p>
+      {/* Loading State */}
+      {loading ? (
+        <p className="text-center text-gray-500">Memuat portfolio...</p>
+      ) : (
+        <div className="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
+          {portfolios.map((item, index) => (
+            <motion.div
+              key={index}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: index * 0.1 }}
+              viewport={{ once: true }}
+              className="group relative overflow-hidden rounded-2xl shadow-sm cursor-pointer"
+              onClick={() => setSelected(item)}
+            >
+              <div className="relative h-[280px] w-full overflow-hidden">
+                <Image
+                  src={item.image}
+                  alt={item.title}
+                  fill
+                  className="object-cover group-hover:scale-110 transition-transform duration-700 ease-out"
+                />
+                <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-all duration-500"></div>
+                <div className="absolute bottom-6 left-6 opacity-0 group-hover:opacity-100 transition-all duration-500 text-white">
+                  <h3 className="text-lg font-semibold">{item.title}</h3>
+                  <p className="text-sm text-gray-200">{item.subtitle}</p>
+                </div>
               </div>
-            </div>
-          </motion.div>
-        ))}
-      </div>
+            </motion.div>
+          ))}
+        </div>
+      )}
 
       {/* Fullscreen Image Modal */}
       <AnimatePresence>

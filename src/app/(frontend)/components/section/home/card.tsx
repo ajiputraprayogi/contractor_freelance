@@ -1,32 +1,38 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import { motion } from "framer-motion";
 
-const categories = [
-  {
-    title: "American Style",
-    subtitle: "Minimalist Home Decor",
-    image: "/images/design/home1.jpg",
-  },
-  {
-    title: "Desain Kontemporer",
-    subtitle: "Minimalist Vibe",
-    image: "/images/design/home2.png",
-  },
-  {
-    title: "Ceramics Design",
-    subtitle: "Garasi Luas",
-    image: "/images/design/home3.jpg",
-  },
-  {
-    title: "Desain Aersial",
-    subtitle: "Kombinasi Natural",
-    image: "/images/design/home4.png",
-  },
-];
-
 export default function DesignCategories() {
+  const [categories, setCategories] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    async function fetchCategories() {
+      try {
+        const res = await fetch("/dummyapi/card");
+        if (!res.ok) throw new Error("Gagal mengambil data");
+        const data = await res.json();
+        setCategories(data);
+      } catch (err) {
+        console.error(err);
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    fetchCategories();
+  }, []);
+
+  if (loading) {
+    return (
+      <section className="py-20 text-center">
+        <p>Memuat data desain...</p>
+      </section>
+    );
+  }
+
   return (
     <section className="py-20 max-w-6xl mx-auto px-6">
       <div className="text-center mb-12">
@@ -39,7 +45,7 @@ export default function DesignCategories() {
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-        {categories.map((item, index) => (
+        {categories.map((item: any, index: number) => (
           <motion.div
             key={index}
             initial={{ opacity: 0, y: 20 }}
