@@ -61,7 +61,7 @@ export default function PortfolioPage() {
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: index * 0.1 }}
               viewport={{ once: true }}
-              className="group relative overflow-hidden rounded-2xl shadow-sm cursor-pointer"
+              className="group relative overflow-hidden shadow-sm cursor-pointer"
               onClick={() => setSelected(item)}
             >
               <div className="relative h-[280px] w-full overflow-hidden">

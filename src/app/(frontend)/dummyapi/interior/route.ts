@@ -5,42 +5,42 @@ export async function GET() {
     {
       title: "American Style",
       subtitle: "Minimalist Home Decor",
-      image: "/images/design/home1.jpg",
+      image: "/images/design/int1.png",
     },
     {
       title: "Desain Kontemporer",
       subtitle: "Minimalist Vibe",
-      image: "/images/design/home2.png",
+      image: "/images/design/int2.png",
     },
     {
       title: "Ceramics Design",
       subtitle: "Garasi Luas",
-      image: "/images/design/home3.jpg",
+      image: "/images/design/int3.png",
     },
     {
       title: "Desain Aersial",
       subtitle: "Kombinasi Natural",
-      image: "/images/design/home4.png",
+      image: "/images/design/int4.png",
     },
     {
       title: "Scandinavian Living",
       subtitle: "Clean White Space",
-      image: "/images/design/home5.jpg",
+      image: "/images/design/int5.png",
     },
     {
       title: "Industrial Loft",
       subtitle: "Steel & Concrete Concept",
-      image: "/images/design/home6.png",
+      image: "/images/design/int6.png",
     },
     {
       title: "Tropical Harmony",
       subtitle: "Natural Breeze House",
-      image: "/images/design/home7.png",
+      image: "/images/design/int7.png",
     },
     {
       title: "Modern Japandi",
       subtitle: "Serenity & Functionality",
-      image: "/images/design/home8.png",
+      image: "/images/design/int8.png",
     },
   ];
 
