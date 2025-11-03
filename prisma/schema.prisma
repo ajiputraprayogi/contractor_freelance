@@ -47,6 +47,7 @@ model users {
   nama       String
   email      String       @unique
   password   String
+  banner     banner[]
   portofolio portofolio[]
   user_roles user_roles[]
 }
@@ -71,4 +72,15 @@ model tim {
   created_at DateTime? @default(now()) @db.Timestamp(6)
   updated_at DateTime? @default(now()) @db.Timestamp(6)
   image      String?   @db.VarChar
+}
+
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model banner {
+  id         Int       @id @default(autoincrement())
+  image      String    @db.VarChar(255)
+  is_active  Boolean   @default(true)
+  created_by Int
+  created_at DateTime? @default(now()) @db.Timestamp(6)
+  updated_at DateTime? @default(now()) @db.Timestamp(6)
+  users      users     @relation(fields: [created_by], references: [id], onDelete: Cascade, onUpdate: Restrict, map: "fk_banner_user")
 }
