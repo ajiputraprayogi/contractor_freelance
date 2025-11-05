@@ -8,48 +8,73 @@ interface PortfolioItem {
   title: string;
   subtitle: string;
   image: string;
+  type: string;
 }
 
-export default function PortfolioPage() {
+// Tipe desain interior yang ingin ditampilkan
+const types = ["all", "enscape", "kamar", "wc"];
+
+export default function InteriorPortfolioPage() {
   const [portfolios, setPortfolios] = useState<PortfolioItem[]>([]);
   const [selected, setSelected] = useState<null | PortfolioItem>(null);
   const [loading, setLoading] = useState(true);
+  const [activeType, setActiveType] = useState("all");
 
-  // Fetch data dari API dummyapi/interior
+async function fetchData(type: string) {
+  setLoading(true);
+  try {
+    // Selalu filter category=interior
+    // Kalau type bukan "all", tambahkan query type
+    const url = `/dummyapi/interior${type !== "all" ? "?type=" + type : ""}`;
+    const res = await fetch(url);
+    if (!res.ok) throw new Error("Gagal mengambil data");
+    const data: PortfolioItem[] = await res.json();
+    setPortfolios(data);
+  } catch (error) {
+    console.error(error);
+  } finally {
+    setLoading(false);
+  }
+}
+
+
+
+
   useEffect(() => {
-    async function fetchData() {
-      try {
-        const res = await fetch("/dummyapi/interior");
-        if (!res.ok) throw new Error("Gagal mengambil data");
-        const data = await res.json();
-        setPortfolios(data);
-      } catch (error) {
-        console.error("Error fetching interior portfolio:", error);
-      } finally {
-        setLoading(false);
-      }
-    }
-
-    fetchData();
-  }, []);
+    fetchData(activeType);
+  }, [activeType]);
 
   return (
     <main className="min-h-screen bg-[#F7F4EF] py-20 px-6 mt-4">
       {/* Header */}
-      <div className="text-center mb-16">
-        <p className="text-sm tracking-[3px] text-[#BFA98E] uppercase">
-          Koleksi Desain Interior
-        </p>
+      <div className="text-center mb-12">
+        <p className="text-sm tracking-[3px] text-[#BFA98E] uppercase">Koleksi Desain Interior</p>
         <h1 className="text-4xl md:text-5xl font-semibold text-[#2E2B25]">
           Portfolio LANARA Design
         </h1>
         <p className="text-gray-600 mt-4 max-w-2xl mx-auto">
-          Jelajahi inspirasi desain interior modern dengan sentuhan estetika minimalis —
-          menciptakan ruang yang elegan dan fungsional di setiap sudut rumah.
+          Jelajahi inspirasi desain interior modern untuk kamar, wc, dan visualisasi Enscape —
+          menciptakan ruang fungsional dengan estetika minimalis.
         </p>
       </div>
 
-      {/* Loading */}
+      {/* Filter Buttons */}
+      <div className="flex flex-wrap justify-center gap-3 mb-8">
+        {types.map((type) => (
+          <button
+            key={type}
+            onClick={() => setActiveType(type)}
+            className={`px-4 py-2 rounded-full font-medium transition ${activeType === type
+                ? "bg-[#BFA98E] text-white"
+                : "bg-white text-gray-700 hover:bg-[#D9C8AA]"
+              }`}
+          >
+            {type === "all" ? "Semua" : type.charAt(0).toUpperCase() + type.slice(1)}
+          </button>
+        ))}
+      </div>
+
+      {/* Loading State */}
       {loading ? (
         <p className="text-center text-gray-500">Memuat portfolio interior...</p>
       ) : (
@@ -61,7 +86,7 @@ export default function PortfolioPage() {
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: index * 0.1 }}
               viewport={{ once: true }}
-              className="group relative overflow-hidden rounded-2xl shadow-sm cursor-pointer"
+              className="group relative overflow-hidden rounded-md shadow-sm cursor-pointer"
               onClick={() => setSelected(item)}
             >
               <div className="relative h-[280px] w-full overflow-hidden">
