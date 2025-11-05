@@ -28,6 +28,9 @@ export async function GET(req, context) {
         slug: true,
         image: true,
         description: true,
+        // 🟢 Pastikan Kategori dan Tipe diambil untuk form edit
+        kategori: true,
+        type: true,
         created_by: true,
         created_at: true,
       },
@@ -73,51 +76,71 @@ export async function PUT(req, context) {
     }
 
     const formData = await req.formData();
+    // 🟢 AMBIL: Semua field dari FormData
     const name = formData.get("name")?.toString() || null;
     const description = formData.get("description")?.toString() || null;
+    const kategori = formData.get("kategori")?.toString() || null;
+    const type = formData.get("type")?.toString() || null;
     const file = formData.get("image");
+    
+    // Konversi file ke tipe yang bisa diproses
+    const imageFile = file instanceof File && file.size > 0 ? file : null;
 
     const existing = await prisma.portofolio.findUnique({ where: { id } });
     if (!existing) {
       return NextResponse.json({ error: "Portofolio tidak ditemukan" }, { status: 404 });
     }
+    
+    // Tentukan nilai baru, gunakan nilai lama jika nilai baru kosong
+    const newName = name ?? existing.name;
+    const newKategori = kategori ?? existing.kategori;
+    const newType = type ?? existing.type;
+
+    // 🟢 VALIDASI SERVER: Wajib diisi
+    if (!newName || !newKategori || !newType) {
+        return NextResponse.json(
+            { error: "Nama, Kategori dan Type wajib diisi" },
+            { status: 400 }
+        );
+    }
 
     // ✅ Generate slug baru jika name berubah
-    const newName = name ?? existing.name;
     const newSlug = await generateUniqueSlugForUpdate(newName, id);
 
     let imageUrl = existing.image;
 
     // ✅ Upload file baru jika ada
-    if (file && file.size > 0) {
+    if (imageFile) {
       // 🔹 Validasi ukuran & tipe file
       const MAX_SIZE = 500 * 1024; // 500KB
       const ALLOWED_TYPES = ["image/jpeg", "image/png", "image/webp"];
 
-      if (file.size > MAX_SIZE) {
+      if (imageFile.size > MAX_SIZE) {
         return NextResponse.json(
           { error: "Ukuran file maksimal 500 KB" },
           { status: 400 }
         );
       }
 
-      if (!ALLOWED_TYPES.includes(file.type)) {
+      if (!ALLOWED_TYPES.includes(imageFile.type)) {
         return NextResponse.json(
           { error: "Format file tidak valid. Hanya JPG, PNG, atau WebP" },
           { status: 400 }
         );
       }
 
-      // 🔹 Hapus file lama di storage kalau ada
+      // 🔹 Hapus file lama di storage
       if (existing.image) {
-        const oldFilePath = existing.image.split("/").pop();
+        const urlParts = existing.image.split('/');
+        const oldFilePath = urlParts.pop(); 
         if (oldFilePath) {
-          await supabase.storage.from("portofolio-images").remove([oldFilePath]);
+            const { error: removeError } = await supabase.storage.from("portofolio-images").remove([oldFilePath]);
+            if (removeError) console.warn("Supabase remove warning:", removeError); 
         }
       }
 
-      const buffer = Buffer.from(await file.arrayBuffer());
-      const ext = file.name.split(".").pop();
+      const buffer = Buffer.from(await imageFile.arrayBuffer());
+      const ext = imageFile.name.split(".").pop();
 
       // ✅ Nama file menjadi slug-timestamp.ext
       const fileName = `${newSlug}-${Date.now()}.${ext}`;
@@ -125,7 +148,7 @@ export async function PUT(req, context) {
 
       const { error: uploadError } = await supabase.storage
         .from("portofolio-images")
-        .upload(filePath, buffer, { contentType: file.type, upsert: true });
+        .upload(filePath, buffer, { contentType: imageFile.type, upsert: true });
 
       if (uploadError) {
         console.error("Supabase upload error:", uploadError);
@@ -138,11 +161,14 @@ export async function PUT(req, context) {
       }
     }
 
+    // 🟢 UPDATE: Simpan semua data
     const updated = await prisma.portofolio.update({
       where: { id },
       data: {
         name: newName,
-        slug: newSlug, // ✅ update slug juga
+        slug: newSlug, 
+        kategori: newKategori, // Update kategori
+        type: newType,         // Update type
         description: description ?? existing.description,
         image: imageUrl,
       },
@@ -165,7 +191,8 @@ export async function DELETE(req, context) {
 
     const existing = await prisma.portofolio.findUnique({ where: { id } });
     if (existing?.image) {
-      const oldFilePath = existing.image.split("/").pop();
+      const urlParts = existing.image.split('/');
+      const oldFilePath = urlParts.pop(); 
       if (oldFilePath) {
         await supabase.storage.from("portofolio-images").remove([oldFilePath]);
       }
