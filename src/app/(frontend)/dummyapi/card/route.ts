@@ -5,32 +5,32 @@ export async function GET() {
     {
       title: "Hunian Rumah",
       subtitle: "Minimalist Home Decor",
-      image: "/images/design/home1.jpg",
+      image: "/images/eksterior/lantai1.png",
     },
     {
-      title: "Kost & Perumahan",
+      title: "Kost",
       subtitle: "Minimalist Vibe",
-      image: "/images/design/home2.png",
+      image: "/images/eksterior/kost1.png",
     },
     {
-      title: "Villa & Cafe",
+      title: "Cafe",
       subtitle: "Garasi Luas",
-      image: "/images/design/home3.jpg",
+      image: "/images/eksterior/cafe3.png",
     },
     {
       title: "Tempat Ibadah",
       subtitle: "Kombinasi Natural",
-      image: "/images/design/home4.png",
+      image: "/images/eksterior/masjid1.png",
     },
-        {
-      title: "Tempat Umum",
-      subtitle: "Garasi Luas",
-      image: "/images/design/home3.jpg",
-    },
+    //     {
+    //   title: "Tempat Umum",
+    //   subtitle: "Garasi Luas",
+    //   image: "/images/eksterior/kost1.png",
+    // },
     {
       title: "Interior",
       subtitle: "Kombinasi Natural",
-      image: "/images/design/int1.png",
+      image: "/images/interior/enscape6.png",
     },
   ];
 
