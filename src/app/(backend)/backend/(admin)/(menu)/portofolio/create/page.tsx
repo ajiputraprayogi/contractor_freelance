@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useMemo } from "react";
 import withPermission from "@/components/auth/withPermission";
 import { useRouter } from "next/navigation";
 import PageBreadcrumb from "@/components/common/PageBreadCrumb";
@@ -10,6 +10,23 @@ import Input from "@/components/form/input/InputField";
 import FileInput from "@/components/form/input/FileInput";
 import Button from "@/components/ui/button/Button";
 import Select from "@/components/form/Select";
+
+// Definisi Opsi Tipe berdasarkan Kategori
+const CATEGORY_TO_TYPES: { [key: string]: { label: string; value: string }[] } = {
+  "Design Interior": [
+    { label: "Enscape", value: "Enscape" },
+    { label: "Kamar", value: "Kamar" },
+    { label: "WC", value: "WC" },
+  ],
+  "Design Eksterior": [
+    { label: "Perumahan", value: "Perumahan" },
+    { label: "Cafe", value: "Cafe" },
+    { label: "Hunian", value: "Hunian" },
+    { label: "Kost", value: "Kost" },
+    { label: "Tempat Ibadah", value: "Tempat Ibadah" },
+    { label: "Villa", value: "Villa" },
+  ],
+};
 
 function CreatePortofolio() {
   const [name, setName] = useState("");
@@ -22,6 +39,18 @@ function CreatePortofolio() {
   const previewRef = useRef<string | null>(null);
   const [loading, setLoading] = useState(false);
   const router = useRouter();
+
+  // Memperoleh opsi tipe secara dinamis berdasarkan kategori yang dipilih
+  const typeOptions = useMemo(() => {
+    return CATEGORY_TO_TYPES[kategori] || [];
+  }, [kategori]);
+
+  // Handler untuk mengubah Kategori dan mereset Tipe
+  const handleKategoriChange = (val: string | number) => {
+    const newKategori = String(val);
+    setKategori(newKategori);
+    setType(""); // Reset Tipe agar pengguna memilih ulang tipe yang valid
+  };
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0] || null;
@@ -51,6 +80,8 @@ function CreatePortofolio() {
 
     // 1. VALIDASI SISI KLIEN (Untuk Error "wajib diisi")
     if (!name || !kategori || !type) {
+      // ✅ PERBAIKAN: Ganti alert() dengan pesan yang lebih informatif (jika Anda memiliki komponen modal/toast)
+      console.error("Error: Nama, Kategori, dan Tipe wajib diisi.");
       alert("Error: Nama, Kategori, dan Tipe wajib diisi.");
       return;
     }
@@ -116,13 +147,13 @@ function CreatePortofolio() {
             />
           </div>
 
-          {/* Dropdown Kategori */}
+          {/* Dropdown Kategori (Kontrol Utama) */}
           <div>
             <Label>Kategori <span className="text-red-500">*</span></Label>
             <Select
               value={kategori}
-              // ✅ PERBAIKAN: Menerima val sebagai string | number, lalu konversi ke String
-              onChange={(val: string | number) => setKategori(String(val))}
+              // ✅ Menggunakan handler baru
+              onChange={handleKategoriChange}
               placeholder="Pilih Kategori"
               options={[
                 { label: "Design Interior", value: "Design Interior" },
@@ -131,29 +162,25 @@ function CreatePortofolio() {
             />
           </div>
 
-          {/* Dropdown Type */}
+          {/* Dropdown Type (Kondisional) */}
           <div>
             <Label>Tipe <span className="text-red-500">*</span></Label>
             <Select
               value={type}
               // ✅ PERBAIKAN: Menerima val sebagai string | number, lalu konversi ke String
               onChange={(val: string | number) => setType(String(val))}
-              placeholder="Pilih Tipe"
-              options={[
-                { label: "Perumahan", value: "Perumahan" },
-                { label: "Cafe", value: "Cafe" },
-                { label: "Hunian", value: "Hunian" },
-                { label: "Kost", value: "Kost" },
-                { label: "Tempat Ibadah", value: "Tempat Ibadah" },
-                { label: "Villa", value: "Villa" }
-              ]}
+              placeholder={kategori ? "Pilih Tipe" : "Pilih Kategori Terlebih Dahulu"}
+              // ✅ Menggunakan opsi dinamis
+              options={typeOptions}
+              // ✅ Nonaktifkan jika Kategori belum dipilih
+              disabled={!kategori}
             />
           </div>
 
           {/* Input Gambar */}
           <div>
             <Label>Upload Gambar</Label>
-            <FileInput onChange={handleFileChange} className="custom-class" />
+            <FileInput onChange={handleFileChange} className="custom-class" accept=".png, .webp"/>
             {previewUrl && (
               <img
                 src={previewUrl}

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useMemo } from "react";
 import withPermission from "@/components/auth/withPermission";
 import { useRouter, useParams } from "next/navigation";
 import PageBreadcrumb from "@/components/common/PageBreadCrumb";
@@ -11,6 +11,24 @@ import Button from "@/components/ui/button/Button";
 import SkeletonDefault from "@/components/skeleton/Default";
 import FileInput from "@/components/form/input/FileInput";
 import Select from "@/components/form/Select";
+
+// Definisi Opsi Tipe berdasarkan Kategori (Disesuaikan dari Create Portofolio)
+const CATEGORY_TO_TYPES: { [key: string]: { label: string; value: string }[] } = {
+  "Design Interior": [
+    { label: "Enscape", value: "Enscape" },
+    { label: "Kamar", value: "Kamar" },
+    { label: "WC", value: "WC" },
+  ],
+  "Design Eksterior": [
+    { label: "Perumahan", value: "Perumahan" },
+    { label: "Cafe", value: "Cafe" },
+    { label: "Hunian", value: "Hunian" },
+    { label: "Kost", value: "Kost" },
+    { label: "Tempat Ibadah", value: "Tempat Ibadah" },
+    { label: "Villa", value: "Villa" },
+  ],
+};
+
 
 function EditPortofolio() {
   const router = useRouter();
@@ -25,6 +43,18 @@ function EditPortofolio() {
 
   const [loading, setLoading] = useState(false);
   const [initialLoading, setInitialLoading] = useState(true);
+
+  // Memperoleh opsi tipe secara dinamis berdasarkan kategori yang dipilih
+  const typeOptions = useMemo(() => {
+    return CATEGORY_TO_TYPES[kategori] || [];
+  }, [kategori]);
+
+  // Handler untuk mengubah Kategori dan mereset Tipe hanya saat interaksi pengguna
+  const handleKategoriChange = (val: string | number) => {
+    const newKategori = String(val);
+    setKategori(newKategori);
+    setType(""); // Reset Tipe agar pengguna memilih ulang tipe yang valid untuk kategori baru
+  };
 
   // Fungsi untuk membersihkan URL objek saat komponen di-unmount
   useEffect(() => {
@@ -49,7 +79,7 @@ function EditPortofolio() {
         setName(data.name || "");
         setDescription(data.description || "");
         setKategori(data.kategori || "");
-        setType(data.type || "");
+        setType(data.type || ""); // State Tipe diisi dengan data yang ada
         setImagePreview(data.image || null);
       } catch (error) {
         console.error(error);
@@ -82,8 +112,10 @@ function EditPortofolio() {
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
 
-    // 1. TAMBAH: VALIDASI SISI KLIEN UNTUK FIELD WAJIB
+    // 1. VALIDASI SISI KLIEN UNTUK FIELD WAJIB
     if (!name || !kategori || !type) {
+        // ✅ PERBAIKAN: Ganti alert() dengan pesan yang lebih informatif (jika Anda memiliki komponen modal/toast)
+        console.error("Error: Nama, Kategori, dan Tipe wajib diisi.");
         alert("Error: Nama, Kategori, dan Tipe wajib diisi.");
         return; 
     }
@@ -165,44 +197,42 @@ function EditPortofolio() {
             />
           </div>
 
-          {/* Dropdown Kategori */}
+          {/* Dropdown Kategori (Kontrol Utama) */}
           <div>
             <Label>Kategori <span className="text-red-500">*</span></Label>
             <Select
               value={kategori}
-              // ✅ PERBAIKAN: Menerima val sebagai string | number, lalu konversi ke String
-              onChange={(val: string | number) => setKategori(String(val))}
+              // ✅ Menggunakan handler baru untuk mereset Tipe saat Kategori berubah
+              onChange={handleKategoriChange}
               placeholder="Pilih Kategori"
               options={[
                 { label: "Design Interior", value: "Design Interior" },
                 { label: "Design Eksterior", value: "Design Eksterior" }
               ]}
+              disabled={loading}
             />
           </div>
 
-          {/* Dropdown Type */}
+          {/* Dropdown Type (Kondisional) */}
           <div>
             <Label>Tipe <span className="text-red-500">*</span></Label>
             <Select
               value={type}
-              // ✅ PERBAIKAN: Menerima val sebagai string | number, lalu konversi ke String
+              // ✅ Menerima val sebagai string | number, lalu konversi ke String
               onChange={(val: string | number) => setType(String(val))}
-              placeholder="Pilih Tipe"
-              options={[
-                { label: "Perumahan", value: "Perumahan" },
-                { label: "Cafe", value: "Cafe" },
-                { label: "Hunian", value: "Hunian" },
-                { label: "Kost", value: "Kost" },
-                { label: "Tempat Ibadah", value: "Tempat Ibadah" },
-                { label: "Villa", value: "Villa" }
-              ]}
+              // ✅ Placeholder dinamis
+              placeholder={kategori ? "Pilih Tipe" : "Pilih Kategori Terlebih Dahulu"}
+              // ✅ Menggunakan opsi dinamis
+              options={typeOptions}
+              // ✅ Nonaktifkan jika Kategori belum dipilih atau sedang loading
+              disabled={loading || !kategori}
             />
           </div>
 
           {/* Input Gambar & Preview */}
           <div>
             <Label>Gambar (Kosongkan jika tidak ingin diubah)</Label>
-            <FileInput onChange={handleFileChange} disabled={loading} />
+            <FileInput onChange={handleFileChange} disabled={loading} accept=".png, .webp" />
             {imagePreview && (
               <>
                 <p className="mt-2 text-sm text-gray-500 dark:text-gray-400">Gambar Saat Ini:</p>
