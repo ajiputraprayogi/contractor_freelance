@@ -8,45 +8,64 @@ interface PortfolioItem {
   title: string;
   subtitle: string;
   image: string;
+  type: string;
 }
+
+// Tipe desain yang ingin ditampilkan
+const types = ["all", "perumahan", "cafe", "hunian", "kost", "tempat ibadah", "villa"];
 
 export default function PortfolioPage() {
   const [portfolios, setPortfolios] = useState<PortfolioItem[]>([]);
   const [selected, setSelected] = useState<null | PortfolioItem>(null);
   const [loading, setLoading] = useState(true);
+  const [activeType, setActiveType] = useState("all");
 
-  // Fetch data dari API dummyapi/eksterior
-  useEffect(() => {
-    async function fetchData() {
-      try {
-        const res = await fetch("/dummyapi/eksterior");
-        if (!res.ok) throw new Error("Gagal mengambil data");
-        const data = await res.json();
-        setPortfolios(data);
-      } catch (error) {
-        console.error("Error fetching portfolio:", error);
-      } finally {
-        setLoading(false);
-      }
+  async function fetchData(type: string) {
+    setLoading(true);
+    try {
+      const res = await fetch(`/dummyapi/portfolio${type !== "all" ? "?type=" + type : ""}`);
+      if (!res.ok) throw new Error("Gagal mengambil data");
+      const data = await res.json();
+      setPortfolios(data);
+    } catch (error) {
+      console.error("Error fetching portfolio:", error);
+    } finally {
+      setLoading(false);
     }
+  }
 
-    fetchData();
-  }, []);
+  useEffect(() => {
+    fetchData(activeType);
+  }, [activeType]);
 
   return (
     <main className="min-h-screen bg-[#F7F4EF] py-20 px-6 mt-4">
       {/* Header */}
-      <div className="text-center mb-16">
-        <p className="text-sm tracking-[3px] text-[#BFA98E] uppercase">
-          Koleksi Desain
-        </p>
+      <div className="text-center mb-12">
+        <p className="text-sm tracking-[3px] text-[#BFA98E] uppercase">Koleksi Desain</p>
         <h1 className="text-4xl md:text-5xl font-semibold text-[#2E2B25]">
           Portfolio LANARA Design
         </h1>
         <p className="text-gray-600 mt-4 max-w-2xl mx-auto">
-          Temukan berbagai inspirasi desain arsitektur dan interior yang telah kami buat —
-          setiap proyek membawa karakter unik dengan sentuhan modern minimalis.
+          Temukan berbagai inspirasi desain arsitektur dan interior yang telah kami buat — setiap proyek membawa karakter unik dengan sentuhan modern minimalis.
         </p>
+      </div>
+
+      {/* Filter Buttons */}
+      <div className="flex flex-wrap justify-center gap-3 mb-8">
+        {types.map((type) => (
+          <button
+            key={type}
+            onClick={() => setActiveType(type)}
+            className={`px-4 py-2 rounded-full font-medium transition ${
+              activeType === type
+                ? "bg-[#BFA98E] text-white"
+                : "bg-white text-gray-700 hover:bg-[#D9C8AA]"
+            }`}
+          >
+            {type === "all" ? "Semua" : type.charAt(0).toUpperCase() + type.slice(1)}
+          </button>
+        ))}
       </div>
 
       {/* Loading State */}
@@ -61,7 +80,7 @@ export default function PortfolioPage() {
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: index * 0.1 }}
               viewport={{ once: true }}
-              className="group relative overflow-hidden rounded-2xl shadow-sm cursor-pointer"
+              className="group relative overflow-hidden rounded-md shadow-sm cursor-pointer"
               onClick={() => setSelected(item)}
             >
               <div className="relative h-[280px] w-full overflow-hidden">
