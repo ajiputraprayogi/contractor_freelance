@@ -5,14 +5,15 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useEffect, useState } from "react";
 
 interface PortfolioItem {
-  title: string;
-  subtitle: string;
+  id: number;
+  slug: string;
+  name: string;
+  description: string;
   image: string;
   type: string;
 }
 
-// Tipe desain interior yang ingin ditampilkan
-const types = ["all", "enscape", "kamar", "wc"];
+const types = ["all", "Enscape", "Kamar", "Wc"];
 
 export default function InteriorPortfolioPage() {
   const [portfolios, setPortfolios] = useState<PortfolioItem[]>([]);
@@ -20,25 +21,22 @@ export default function InteriorPortfolioPage() {
   const [loading, setLoading] = useState(true);
   const [activeType, setActiveType] = useState("all");
 
-async function fetchData(type: string) {
-  setLoading(true);
-  try {
-    // Selalu filter category=interior
-    // Kalau type bukan "all", tambahkan query type
-    const url = `/dummyapi/interior${type !== "all" ? "?type=" + type : ""}`;
-    const res = await fetch(url);
-    if (!res.ok) throw new Error("Gagal mengambil data");
-    const data: PortfolioItem[] = await res.json();
-    setPortfolios(data);
-  } catch (error) {
-    console.error(error);
-  } finally {
-    setLoading(false);
+  async function fetchData(type: string) {
+    setLoading(true);
+    try {
+      const url = `/api/portofolio/interior${type !== "all" ? "?type=" + type : ""}`;
+      const res = await fetch(url);
+
+      if (!res.ok) throw new Error("Gagal mengambil data");
+
+      const data: PortfolioItem[] = await res.json();
+      setPortfolios(data);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setLoading(false);
+    }
   }
-}
-
-
-
 
   useEffect(() => {
     fetchData(activeType);
@@ -46,42 +44,42 @@ async function fetchData(type: string) {
 
   return (
     <main className="min-h-screen bg-[#F7F4EF] py-20 px-6 mt-4">
-      {/* Header */}
+      
       <div className="text-center mb-12">
-        <p className="text-sm tracking-[3px] text-[#BFA98E] uppercase">Koleksi Desain Interior</p>
+        <p className="text-sm tracking-[3px] text-[#BFA98E] uppercase">
+          Koleksi Desain Interior
+        </p>
         <h1 className="text-4xl md:text-5xl font-semibold text-[#2E2B25]">
           Portfolio LANARA Design
         </h1>
         <p className="text-gray-600 mt-4 max-w-2xl mx-auto">
-          Jelajahi inspirasi desain interior modern untuk kamar, wc, dan visualisasi Enscape —
-          menciptakan ruang fungsional dengan estetika minimalis.
+          Jelajahi inspirasi desain interior modern untuk kamar, wc, dan visualisasi Enscape
         </p>
       </div>
 
-      {/* Filter Buttons */}
       <div className="flex flex-wrap justify-center gap-3 mb-8">
         {types.map((type) => (
           <button
             key={type}
             onClick={() => setActiveType(type)}
-            className={`px-4 py-2 rounded-full font-medium transition ${activeType === type
+            className={`px-4 py-2 rounded-full font-medium transition ${
+              activeType === type
                 ? "bg-[#BFA98E] text-white"
                 : "bg-white text-gray-700 hover:bg-[#D9C8AA]"
-              }`}
+            }`}
           >
             {type === "all" ? "Semua" : type.charAt(0).toUpperCase() + type.slice(1)}
           </button>
         ))}
       </div>
 
-      {/* Loading State */}
       {loading ? (
         <p className="text-center text-gray-500">Memuat portfolio interior...</p>
       ) : (
         <div className="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
           {portfolios.map((item, index) => (
             <motion.div
-              key={index}
+              key={item.id}
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: index * 0.1 }}
@@ -92,14 +90,14 @@ async function fetchData(type: string) {
               <div className="relative h-[280px] w-full overflow-hidden">
                 <Image
                   src={item.image}
-                  alt={item.title}
+                  alt={item.name}
                   fill
                   className="object-cover group-hover:scale-110 transition-transform duration-700 ease-out"
                 />
                 <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-all duration-500"></div>
                 <div className="absolute bottom-6 left-6 opacity-0 group-hover:opacity-100 transition-all duration-500 text-white">
-                  <h3 className="text-lg font-semibold">{item.title}</h3>
-                  <p className="text-sm text-gray-200">{item.subtitle}</p>
+                  <h3 className="text-lg font-semibold">{item.name}</h3>
+                  <p className="text-sm text-gray-200">{item.description}</p>
                 </div>
               </div>
             </motion.div>
@@ -107,7 +105,6 @@ async function fetchData(type: string) {
         </div>
       )}
 
-      {/* Fullscreen Image Modal */}
       <AnimatePresence>
         {selected && (
           <motion.div
@@ -127,21 +124,21 @@ async function fetchData(type: string) {
             >
               <Image
                 src={selected.image}
-                alt={selected.title}
+                alt={selected.name}
                 fill
                 className="object-contain rounded-lg"
               />
-              {/* Close Button */}
+
               <button
                 onClick={() => setSelected(null)}
                 className="absolute top-4 right-4 text-white bg-black/40 hover:bg-black/60 rounded-full p-2 transition"
               >
                 ✕
               </button>
-              {/* Caption */}
+
               <div className="absolute bottom-6 left-0 right-0 text-center text-white">
-                <h3 className="text-xl font-semibold">{selected.title}</h3>
-                <p className="text-sm text-gray-300">{selected.subtitle}</p>
+                <h3 className="text-xl font-semibold">{selected.name}</h3>
+                <p className="text-sm text-gray-300">{selected.description}</p>
               </div>
             </motion.div>
           </motion.div>

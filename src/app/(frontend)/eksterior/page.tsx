@@ -12,7 +12,7 @@ interface PortfolioItem {
 }
 
 // Tipe desain yang ingin ditampilkan
-const types = ["all", "perumahan", "cafe", "hunian", "kost", "tempat ibadah", "villa"];
+const types = ["all", "Perumahan", "Cafe", "Hunian", "Kost", "Tempat Ibadah", "Villa"];
 
 export default function PortfolioPage() {
   const [portfolios, setPortfolios] = useState<PortfolioItem[]>([]);
@@ -23,7 +23,7 @@ export default function PortfolioPage() {
   async function fetchData(type: string) {
     setLoading(true);
     try {
-      const res = await fetch(`/dummyapi/eksterior${type !== "all" ? "?type=" + type : ""}`);
+      const res = await fetch(`/api/portfolio/eksterior${type !== "all" ? "?type=" + type : ""}`);
       if (!res.ok) throw new Error("Gagal mengambil data");
       const data = await res.json();
       setPortfolios(data);
