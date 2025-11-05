@@ -4,7 +4,7 @@ import { createClient } from "@supabase/supabase-js";
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY! // pakai service role biar bisa upload tanpa auth user
+  process.env.SUPABASE_SERVICE_ROLE_KEY!
 );
 
 function slugify(text: string): string {
@@ -27,7 +27,7 @@ async function generateUniqueSlug(name: string) {
   return uniqueSlug;
 }
 
-// ✅ GET untuk ambil semua portofolio
+// ✅ GET: ambil semua portofolio
 export async function GET() {
   try {
     const portofolio = await prisma.portofolio.findMany({
@@ -36,12 +36,16 @@ export async function GET() {
         name: true,
         slug: true,
         image: true,
+        kategori: true,
+        type: true,
         description: true,
         created_by: true,
         created_at: true,
+        updated_at: true,
       },
       orderBy: { id: "desc" },
     });
+
     return NextResponse.json(portofolio);
   } catch (error) {
     console.error("Prisma error (GET):", error);
@@ -52,25 +56,27 @@ export async function GET() {
   }
 }
 
-// ✅ POST untuk buat portofolio baru + upload image ke Supabase
+// ✅ POST: create portofolio
 export async function POST(request: Request) {
   try {
     const formData = await request.formData();
     const name = formData.get("name") as string;
-    const description = formData.get("description") as string;
+    const description = formData.get("description") as string | null;
+    const kategori = formData.get("kategori") as string;
+    const type = formData.get("type") as string;
     const imageFile = formData.get("image") as File | null;
 
-    if (!name) {
+    // ✅ Validasi wajib
+    if (!name || !kategori || !type) {
       return NextResponse.json(
-        { error: "Nama portofolio wajib diisi" },
+        { error: "Nama, Kategori dan Type wajib diisi" },
         { status: 400 }
       );
     }
 
-    // ✅ Validasi file kalau ada
+    // ✅ Validasi file jika ada
     if (imageFile) {
-      // max 500 KB
-      const MAX_SIZE = 500 * 1024; 
+      const MAX_SIZE = 500 * 1024;
       const ALLOWED_TYPES = ["image/jpeg", "image/png", "image/webp"];
 
       if (imageFile.size > MAX_SIZE) {
@@ -82,53 +88,53 @@ export async function POST(request: Request) {
 
       if (!ALLOWED_TYPES.includes(imageFile.type)) {
         return NextResponse.json(
-          { error: "Format file tidak valid. Hanya JPG, PNG, atau WebP yang diperbolehkan" },
+          { error: "Format file tidak valid (JPG, PNG, WebP saja)" },
           { status: 400 }
         );
       }
     }
 
-    // Generate slug unik
+    // ✅ Buat slug unik
     const slug = await generateUniqueSlug(name);
 
-    // Upload gambar jika ada
+    // ✅ Upload gambar
     let imageUrl: string | null = null;
+
     if (imageFile) {
       const fileExt = imageFile.name.split(".").pop();
       const fileName = `${slug}-${Date.now()}.${fileExt}`;
 
-      const { data, error } = await supabase.storage
+      const { error: uploadError } = await supabase.storage
         .from("portofolio-images")
-        .upload(fileName, imageFile, {
-          cacheControl: "3600",
-          upsert: false,
-        });
+        .upload(fileName, imageFile);
 
-      if (error) {
-        console.error("Supabase upload error:", error);
+      if (uploadError) {
+        console.error(uploadError);
         return NextResponse.json(
           { error: "Gagal upload gambar" },
           { status: 500 }
         );
       }
 
-      // Ambil public URL
       const { data: publicUrl } = supabase.storage
         .from("portofolio-images")
         .getPublicUrl(fileName);
+
       imageUrl = publicUrl.publicUrl;
     }
 
-    const createdBy = 1; // TODO: ambil dari session user
+    const createdBy = 1; // TODO: ganti saat sudah pakai auth user session
 
-    // Simpan ke database
+    // ✅ Simpan data
     const newPortofolio = await prisma.portofolio.create({
       data: {
         name,
         slug,
-        created_by: createdBy,
+        kategori,
+        type,
         image: imageUrl,
         description: description || null,
+        created_by: createdBy,
       },
     });
 

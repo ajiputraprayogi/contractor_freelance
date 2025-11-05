@@ -9,13 +9,17 @@ import Label from "@/components/form/Label";
 import Input from "@/components/form/input/InputField";
 import FileInput from "@/components/form/input/FileInput";
 import Button from "@/components/ui/button/Button";
+import Select from "@/components/form/Select";
 
 function CreatePortofolio() {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
+  const [kategori, setKategori] = useState("");
+  const [type, setType] = useState("");
+
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
-  const previewRef = useRef<string | null>(null); // ✅ simpan URL di ref agar bisa dibersihkan dengan aman
+  const previewRef = useRef<string | null>(null);
   const [loading, setLoading] = useState(false);
   const router = useRouter();
 
@@ -24,10 +28,7 @@ function CreatePortofolio() {
 
     if (file) {
       setImageFile(file);
-
-      // bersihkan URL lama
       if (previewRef.current) URL.revokeObjectURL(previewRef.current);
-
       const url = URL.createObjectURL(file);
       previewRef.current = url;
       setPreviewUrl(url);
@@ -39,7 +40,6 @@ function CreatePortofolio() {
     }
   };
 
-  // ✅ cleanup hanya saat unmount
   useEffect(() => {
     return () => {
       if (previewRef.current) URL.revokeObjectURL(previewRef.current);
@@ -49,10 +49,18 @@ function CreatePortofolio() {
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
 
-    // browser akan validasi otomatis karena pakai `required` di input
+    // 1. VALIDASI SISI KLIEN (Untuk Error "wajib diisi")
+    if (!name || !kategori || !type) {
+      alert("Error: Nama, Kategori, dan Tipe wajib diisi.");
+      return;
+    }
+
     const formData = new FormData();
     formData.append("name", name);
     formData.append("description", description);
+    formData.append("kategori", kategori);
+    formData.append("type", type);
+
     if (imageFile) formData.append("image", imageFile);
 
     setLoading(true);
@@ -82,17 +90,21 @@ function CreatePortofolio() {
       <PageBreadcrumb pageTitle="Tambah Portofolio" />
       <ComponentCard title="Form Tambah Portofolio">
         <form onSubmit={handleSubmit} className="grid gap-4">
+
+          {/* Input Nama Portofolio */}
           <div>
-            <Label>Nama Portofolio</Label>
+            <Label>Nama Portofolio <span className="text-red-500">*</span></Label>
             <Input
               type="text"
               name="name"
               required
+              value={name}
               onChange={(e) => setName(e.target.value)}
               placeholder="Nama portofolio"
             />
           </div>
 
+          {/* Input Deskripsi */}
           <div>
             <Label>Deskripsi</Label>
             <textarea
@@ -104,6 +116,41 @@ function CreatePortofolio() {
             />
           </div>
 
+          {/* Dropdown Kategori */}
+          <div>
+            <Label>Kategori <span className="text-red-500">*</span></Label>
+            <Select
+              value={kategori}
+              // ✅ PERBAIKAN: Menerima val sebagai string | number, lalu konversi ke String
+              onChange={(val: string | number) => setKategori(String(val))}
+              placeholder="Pilih Kategori"
+              options={[
+                { label: "Design Interior", value: "Design Interior" },
+                { label: "Design Eksterior", value: "Design Eksterior" }
+              ]}
+            />
+          </div>
+
+          {/* Dropdown Type */}
+          <div>
+            <Label>Tipe <span className="text-red-500">*</span></Label>
+            <Select
+              value={type}
+              // ✅ PERBAIKAN: Menerima val sebagai string | number, lalu konversi ke String
+              onChange={(val: string | number) => setType(String(val))}
+              placeholder="Pilih Tipe"
+              options={[
+                { label: "Perumahan", value: "Perumahan" },
+                { label: "Cafe", value: "Cafe" },
+                { label: "Hunian", value: "Hunian" },
+                { label: "Kost", value: "Kost" },
+                { label: "Tempat Ibadah", value: "Tempat Ibadah" },
+                { label: "Villa", value: "Villa" }
+              ]}
+            />
+          </div>
+
+          {/* Input Gambar */}
           <div>
             <Label>Upload Gambar</Label>
             <FileInput onChange={handleFileChange} className="custom-class" />
@@ -116,6 +163,7 @@ function CreatePortofolio() {
             )}
           </div>
 
+          {/* Tombol Aksi */}
           <div className="flex justify-end">
             <Button
               size="sm"
