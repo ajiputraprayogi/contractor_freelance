@@ -76,12 +76,12 @@ export async function POST(request: Request) {
 
     // ✅ Validasi file jika ada
     if (imageFile) {
-      const MAX_SIZE = 500 * 1024;
+      const MAX_SIZE = 1000 * 1024;
       const ALLOWED_TYPES = ["image/jpeg", "image/png", "image/webp"];
 
       if (imageFile.size > MAX_SIZE) {
         return NextResponse.json(
-          { error: "Ukuran file maksimal 500 KB" },
+          { error: "Ukuran file maksimal 1000 KB" },
           { status: 400 }
         );
       }
