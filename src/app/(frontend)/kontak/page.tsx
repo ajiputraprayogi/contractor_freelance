@@ -12,26 +12,25 @@ import {
 } from "react-icons/fa";
 import Link from "next/link";
 
-// ✅ 1️⃣ Definisikan tipe Contact
+// ✅ Tipe Contact tanpa color
 type Contact = {
-  name: string;
-  username: string;
-  link: string;
+  id: number;
+  platform: string;
+  // username: string;
+  url: string;
   icon: "instagram" | "whatsapp" | "facebook" | "tiktok" | "email";
-  color: string;
 };
 
 export default function ContactPage() {
-  // ✅ 2️⃣ Gunakan tipe Contact[]
   const [contacts, setContacts] = useState<Contact[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     async function fetchContacts() {
       try {
-        const res = await fetch("/dummyapi/kontak");
+        const res = await fetch("/api/kontak");
         if (!res.ok) throw new Error("Failed to fetch contacts");
-        const data: Contact[] = await res.json(); 
+        const data: Contact[] = await res.json();
         setContacts(data);
       } catch (err) {
         console.error(err);
@@ -48,6 +47,14 @@ export default function ContactPage() {
     facebook: <FaFacebookF className="text-2xl" />,
     tiktok: <FaTiktok className="text-2xl" />,
     email: <FaEnvelope className="text-2xl" />,
+  };
+
+  const hoverColorMap: Record<Contact["icon"], string> = {
+    instagram: "hover:bg-purple-200 hover:text-purple-700",
+    whatsapp: "hover:bg-green-200 hover:text-green-700",
+    facebook: "hover:bg-blue-200 hover:text-blue-700",
+    tiktok: "hover:bg-gray-200 hover:text-gray-700",
+    email: "hover:bg-yellow-200 hover:text-yellow-700",
   };
 
   return (
@@ -112,16 +119,16 @@ export default function ContactPage() {
               <div className="mt-6 grid gap-3">
                 {contacts.map((c) => (
                   <Link
-                    key={c.name}
-                    href={c.link}
+                    key={c.id}
+                    href={c.url}
                     target="_blank"
                     rel="noreferrer"
-                    className={`flex items-center gap-4 p-4 rounded-xl ring-1 ring-gray-200 hover:shadow transition ${c.color}`}
+                    className={`flex items-center gap-4 p-4 rounded-xl ring-1 ring-gray-200 hover:shadow transition ${hoverColorMap[c.icon]}`}
                   >
                     {iconMap[c.icon]}
                     <div>
-                      <div className="text-sm font-medium">{c.name}</div>
-                      <div className="text-xs opacity-70">{c.username}</div>
+                      <div className="text-sm font-medium">{c.platform}</div>
+                      <div className="text-xs opacity-70">{c.url}</div>
                     </div>
                   </Link>
                 ))}

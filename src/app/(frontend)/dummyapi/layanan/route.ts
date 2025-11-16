@@ -2,20 +2,20 @@
 import { NextResponse } from "next/server";
 
 const layananList = [
-  {
-    label: "Desain Rumah",
-    images: [
-      "/images/design/home1.jpg",
-      "/images/design/home2.png",
-      "/images/design/home3.jpg",
-    ],
-    desc: "Kami menciptakan desain rumah dengan keseimbangan fungsi dan estetika, menghadirkan ruang yang nyaman dan bernilai tinggi.",
-    fitur: [
-      "Perencanaan tata ruang efisien",
-      "Material berkualitas tinggi",
-      "Konsep desain sesuai kebutuhan klien",
-    ],
-  },
+  // {
+  //   label: "Semua Desain",
+  //   images: [
+  //     "/images/design/home1.jpg",
+  //     "/images/design/home2.png",
+  //     "/images/design/home3.jpg",
+  //   ],
+  //   desc: "Kami menciptakan desain rumah dengan keseimbangan fungsi dan estetika, menghadirkan ruang yang nyaman dan bernilai tinggi.",
+  //   fitur: [
+  //     "Perencanaan tata ruang efisien",
+  //     "Material berkualitas tinggi",
+  //     "Konsep desain sesuai kebutuhan klien",
+  //   ],
+  // },
   {
     label: "Desain Interior",
     images: [
