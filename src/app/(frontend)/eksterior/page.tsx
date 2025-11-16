@@ -5,8 +5,8 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useEffect, useState } from "react";
 
 interface PortfolioItem {
-  title: string;
-  subtitle: string;
+  name: string;
+  description: string;
   image: string;
   type: string;
 }
@@ -86,14 +86,14 @@ export default function PortfolioPage() {
               <div className="relative h-[280px] w-full overflow-hidden">
                 <Image
                   src={item.image}
-                  alt={item.title}
+                  alt={item.name}
                   fill
                   className="object-cover group-hover:scale-110 transition-transform duration-700 ease-out"
                 />
                 <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-all duration-500"></div>
                 <div className="absolute bottom-6 left-6 opacity-0 group-hover:opacity-100 transition-all duration-500 text-white">
-                  <h3 className="text-lg font-semibold">{item.title}</h3>
-                  <p className="text-sm text-gray-200">{item.subtitle}</p>
+                  <h3 className="text-lg font-semibold">{item.name}</h3>
+                  <p className="text-sm text-gray-200">{item.description}</p>
                 </div>
               </div>
             </motion.div>
@@ -121,7 +121,7 @@ export default function PortfolioPage() {
             >
               <Image
                 src={selected.image}
-                alt={selected.title}
+                alt={selected.name}
                 fill
                 className="object-contain rounded-lg"
               />
@@ -134,8 +134,8 @@ export default function PortfolioPage() {
               </button>
               {/* Caption */}
               <div className="absolute bottom-6 left-0 right-0 text-center text-white">
-                <h3 className="text-xl font-semibold">{selected.title}</h3>
-                <p className="text-sm text-gray-300">{selected.subtitle}</p>
+                <h3 className="text-xl font-semibold">{selected.name}</h3>
+                <p className="text-sm text-gray-300">{selected.description}</p>
               </div>
             </motion.div>
           </motion.div>
