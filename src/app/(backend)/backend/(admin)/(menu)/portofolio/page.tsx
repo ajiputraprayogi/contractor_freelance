@@ -24,6 +24,9 @@ type Portfolio = {
   name: string;
   image?: string | null;
   description?: string | null;
+  // ✅ PERBAIKAN: Tambahkan properti 'type' dan 'kategori'
+  type?: string | null;
+  kategori?: string | null;
 };
 
 function PortofolioPage() {
@@ -110,15 +113,22 @@ function PortofolioPage() {
                     <TableCell isHeader className="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400">
                       Portofolio
                     </TableCell>
+                    <TableCell isHeader className="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400">
+                      Type
+                    </TableCell>
+                    <TableCell isHeader className="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400">
+                      Kategori
+                    </TableCell>
                     <TableCell isHeader className="px-5 py-3 font-medium text-gray-500 text-center text-theme-xs dark:text-gray-400">
                       Actions
                     </TableCell>
                   </TableRow>
                 </TableHeader>
 
+
                 <TableBody className="divide-y divide-gray-100 dark:divide-white/[0.05]">
                   {allPortofolio.map((portfolio) => {
-                    const description = portfolio.description ?? ""; // fallback supaya tidak undefined
+                    const description = portfolio.description ?? "";
                     const shortDescription =
                       description.length > 150
                         ? description.slice(0, 150) + "..."
@@ -126,6 +136,7 @@ function PortofolioPage() {
 
                     return (
                       <TableRow key={portfolio.id}>
+                        {/* Kolom Portofolio */}
                         <TableCell className="px-5 py-4 sm:px-6 text-start">
                           <div className="flex items-center gap-3">
                             {portfolio.image ? (
@@ -150,6 +161,18 @@ function PortofolioPage() {
                             </div>
                           </div>
                         </TableCell>
+
+                        {/* ✅ Kolom Type (Fixed: Added 'type' to Portfolio type definition) */}
+                        <TableCell className="px-5 py-4 sm:px-6 text-start">
+                          {portfolio.type ?? "-"}
+                        </TableCell>
+
+                        {/* ✅ Kolom Kategori (Fixed: Added 'kategori' to Portfolio type definition) */}
+                        <TableCell className="px-5 py-4 sm:px-6 text-start">
+                          {portfolio.kategori ?? "-"}
+                        </TableCell>
+
+                        {/* Actions */}
                         <TableCell className="px-5 py-4 sm:px-6 text-start">
                           <div className="flex items-center gap-0">
                             {!canEdit && !canDelete && (

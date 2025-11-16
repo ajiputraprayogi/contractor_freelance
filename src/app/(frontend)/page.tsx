@@ -4,6 +4,7 @@ import { useRef } from "react";
 import HeroSection from "./components/section/home/heroSection";
 import DesignCategories from "./components/section/home/card";
 import FurnitureHero from "./components/section/home/furniture";
+import AboutStatsPage from "./components/section/home/satisfied";
 
 export default function HomePage() {
   const sectionRef = useRef<HTMLDivElement | null>(null);
@@ -20,6 +21,9 @@ export default function HomePage() {
       <div ref={sectionRef}>
         <DesignCategories />
       </div>
+
+      {/* Satisfied Client */}
+      <AboutStatsPage />
 
       {/* Furniture */}
       <FurnitureHero/>

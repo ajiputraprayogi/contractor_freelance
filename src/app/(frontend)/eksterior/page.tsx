@@ -5,48 +5,67 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useEffect, useState } from "react";
 
 interface PortfolioItem {
-  title: string;
-  subtitle: string;
+  name: string;
+  description: string;
   image: string;
+  type: string;
 }
+
+// Tipe desain yang ingin ditampilkan
+const types = ["all", "Perumahan", "Cafe", "Hunian", "Kost", "Tempat Ibadah", "Villa"];
 
 export default function PortfolioPage() {
   const [portfolios, setPortfolios] = useState<PortfolioItem[]>([]);
   const [selected, setSelected] = useState<null | PortfolioItem>(null);
   const [loading, setLoading] = useState(true);
+  const [activeType, setActiveType] = useState("all");
 
-  // Fetch data dari API dummyapi/eksterior
-  useEffect(() => {
-    async function fetchData() {
-      try {
-        const res = await fetch("/dummyapi/eksterior");
-        if (!res.ok) throw new Error("Gagal mengambil data");
-        const data = await res.json();
-        setPortfolios(data);
-      } catch (error) {
-        console.error("Error fetching portfolio:", error);
-      } finally {
-        setLoading(false);
-      }
+  async function fetchData(type: string) {
+    setLoading(true);
+    try {
+      const res = await fetch(`/api/portofolio/eksterior${type !== "all" ? "?type=" + type : ""}`);
+      if (!res.ok) throw new Error("Gagal mengambil data");
+      const data = await res.json();
+      setPortfolios(data);
+    } catch (error) {
+      console.error("Error fetching portfolio:", error);
+    } finally {
+      setLoading(false);
     }
+  }
 
-    fetchData();
-  }, []);
+  useEffect(() => {
+    fetchData(activeType);
+  }, [activeType]);
 
   return (
     <main className="min-h-screen bg-[#F7F4EF] py-20 px-6 mt-4">
       {/* Header */}
-      <div className="text-center mb-16">
-        <p className="text-sm tracking-[3px] text-[#BFA98E] uppercase">
-          Koleksi Desain
-        </p>
+      <div className="text-center mb-12">
+        <p className="text-sm tracking-[3px] text-[#BFA98E] uppercase">Koleksi Desain</p>
         <h1 className="text-4xl md:text-5xl font-semibold text-[#2E2B25]">
           Portfolio LANARA Design
         </h1>
         <p className="text-gray-600 mt-4 max-w-2xl mx-auto">
-          Temukan berbagai inspirasi desain arsitektur dan interior yang telah kami buat —
-          setiap proyek membawa karakter unik dengan sentuhan modern minimalis.
+          Temukan berbagai inspirasi desain arsitektur dan interior yang telah kami buat — setiap proyek membawa karakter unik dengan sentuhan modern minimalis.
         </p>
+      </div>
+
+      {/* Filter Buttons */}
+      <div className="flex flex-wrap justify-center gap-3 mb-8">
+        {types.map((type) => (
+          <button
+            key={type}
+            onClick={() => setActiveType(type)}
+            className={`px-4 py-2 rounded-full font-medium transition ${
+              activeType === type
+                ? "bg-[#BFA98E] text-white"
+                : "bg-white text-gray-700 hover:bg-[#D9C8AA]"
+            }`}
+          >
+            {type === "all" ? "Semua" : type.charAt(0).toUpperCase() + type.slice(1)}
+          </button>
+        ))}
       </div>
 
       {/* Loading State */}
@@ -61,20 +80,20 @@ export default function PortfolioPage() {
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: index * 0.1 }}
               viewport={{ once: true }}
-              className="group relative overflow-hidden rounded-2xl shadow-sm cursor-pointer"
+              className="group relative overflow-hidden rounded-md shadow-sm cursor-pointer"
               onClick={() => setSelected(item)}
             >
               <div className="relative h-[280px] w-full overflow-hidden">
                 <Image
                   src={item.image}
-                  alt={item.title}
+                  alt={item.name}
                   fill
                   className="object-cover group-hover:scale-110 transition-transform duration-700 ease-out"
                 />
                 <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-all duration-500"></div>
                 <div className="absolute bottom-6 left-6 opacity-0 group-hover:opacity-100 transition-all duration-500 text-white">
-                  <h3 className="text-lg font-semibold">{item.title}</h3>
-                  <p className="text-sm text-gray-200">{item.subtitle}</p>
+                  <h3 className="text-lg font-semibold">{item.name}</h3>
+                  <p className="text-sm text-gray-200">{item.description}</p>
                 </div>
               </div>
             </motion.div>
@@ -102,7 +121,7 @@ export default function PortfolioPage() {
             >
               <Image
                 src={selected.image}
-                alt={selected.title}
+                alt={selected.name}
                 fill
                 className="object-contain rounded-lg"
               />
@@ -115,8 +134,8 @@ export default function PortfolioPage() {
               </button>
               {/* Caption */}
               <div className="absolute bottom-6 left-0 right-0 text-center text-white">
-                <h3 className="text-xl font-semibold">{selected.title}</h3>
-                <p className="text-sm text-gray-300">{selected.subtitle}</p>
+                <h3 className="text-xl font-semibold">{selected.name}</h3>
+                <p className="text-sm text-gray-300">{selected.description}</p>
               </div>
             </motion.div>
           </motion.div>

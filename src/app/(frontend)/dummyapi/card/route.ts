@@ -3,24 +3,34 @@ import { NextResponse } from "next/server";
 export async function GET() {
   const data = [
     {
-      title: "American Style",
+      title: "Hunian Rumah",
       subtitle: "Minimalist Home Decor",
-      image: "/images/design/home1.jpg",
+      image: "/images/eksterior/lantai1.png",
     },
     {
-      title: "Desain Kontemporer",
+      title: "Kost",
       subtitle: "Minimalist Vibe",
-      image: "/images/design/home2.png",
+      image: "/images/eksterior/kost1.png",
     },
     {
-      title: "Ceramics Design",
+      title: "Cafe",
       subtitle: "Garasi Luas",
-      image: "/images/design/home3.jpg",
+      image: "/images/eksterior/cafe3.png",
     },
     {
-      title: "Desain Aersial",
+      title: "Tempat Ibadah",
       subtitle: "Kombinasi Natural",
-      image: "/images/design/home4.png",
+      image: "/images/eksterior/masjid1.png",
+    },
+    //     {
+    //   title: "Tempat Umum",
+    //   subtitle: "Garasi Luas",
+    //   image: "/images/eksterior/kost1.png",
+    // },
+    {
+      title: "Interior",
+      subtitle: "Kombinasi Natural",
+      image: "/images/interior/enscape6.png",
     },
   ];
 

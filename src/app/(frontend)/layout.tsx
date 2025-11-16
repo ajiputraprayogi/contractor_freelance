@@ -13,10 +13,10 @@ const outfit = Outfit({
 });
 
 export const metadata: Metadata = {
-  title: "Bless Luxury Contractor",
+  title: "LANARA Design",
   description: "Architect Site",
     icons: {
-    icon: "/images/brand/logos.png", // default favicon
+    icon: "/images/brand/logos.png",
   },
 };
 
