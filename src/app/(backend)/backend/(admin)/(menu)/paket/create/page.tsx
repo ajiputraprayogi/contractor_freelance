@@ -14,7 +14,6 @@ function CreatePaket() {
     const [name, setName] = useState("");
     const [harga, setHarga] = useState("");
     const [detail, setDetail] = useState("");
-    // Set kategori to empty string for placeholder visibility
     const [kategori, setKategori] = useState(""); 
     
     const [fitur, setFitur] = useState<string[]>([""]);
@@ -27,9 +26,9 @@ function CreatePaket() {
         setFitur(updated);
     }
 
-    // ✅ FIX: Handler changed to accept raw value (string) instead of the full event object
-    function handleKategoriChange(value: string) {
-        setKategori(value);
+    // Tipe handler sudah benar: (value: string | number) => void
+    function handleKategoriChange(value: string | number) {
+        setKategori(String(value)); 
     }
 
     function addFiturField() {
@@ -103,10 +102,9 @@ function CreatePaket() {
                     <div>
                         <Label>Kategori</Label>
                         <Select
-                            name="kategori"
-                            required
+                            // name="kategori" <-- DIHAPUS
+                            // required <-- DIHAPUS
                             value={kategori}
-                            // Menggunakan handler yang sudah diperbaiki
                             onChange={handleKategoriChange} 
                             placeholder="Pilih Kategori"
                             options={[

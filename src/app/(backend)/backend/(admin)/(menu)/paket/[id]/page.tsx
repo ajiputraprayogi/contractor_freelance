@@ -9,7 +9,6 @@ import Label from "@/components/form/Label";
 import Input from "@/components/form/input/InputField";
 import Button from "@/components/ui/button/Button";
 import SkeletonDefault from "@/components/skeleton/Default";
-// Import komponen Select
 import Select from "@/components/form/Select";
 
 function EditPaket() {
@@ -18,9 +17,8 @@ function EditPaket() {
 
     const [name, setName] = useState("");
     const [harga, setHarga] = useState("");
-    // Ditambahkan: State untuk detail dan kategori
     const [detail, setDetail] = useState("");
-    const [kategori, setKategori] = useState(""); // Nilai awal kosong
+    const [kategori, setKategori] = useState(""); 
     
     const [fitur, setFitur] = useState<string[]>([""]);
 
@@ -37,13 +35,11 @@ function EditPaket() {
 
                 const data = await res.json();
                 
-                // Mengisi State dengan data yang diambil
                 setName(data.name || "");
                 setHarga(data.harga || "");
                 setDetail(data.detail || "");
-                setKategori(data.kategori || ""); // Isi kategori
+                setKategori(data.kategori || ""); 
                 
-                // Catatan: Relasi di API bernama 'paket_fitur', bukan 'fitur'.
                 const fetchedFitur = data.paket_fitur?.map((f: any) => f.fitur) || [""];
                 setFitur(fetchedFitur);
 
@@ -64,9 +60,8 @@ function EditPaket() {
         setFitur(updated);
     }
     
-    // Handler untuk komponen Select
-    function handleKategoriChange(value: string) {
-        setKategori(value);
+    function handleKategoriChange(value: string | number) {
+        setKategori(String(value)); 
     }
 
     function addFiturField() {
@@ -81,7 +76,6 @@ function EditPaket() {
         e.preventDefault();
         setLoading(true);
 
-        // Validasi minimal
         if (!name || !harga || !kategori) {
              alert("Nama Paket, Harga, dan Kategori wajib diisi.");
              setLoading(false);
@@ -97,7 +91,6 @@ function EditPaket() {
                 body: JSON.stringify({
                     name,
                     harga,
-                    // Ditambahkan: detail dan kategori
                     detail,
                     kategori,
                     fitur: fitur.filter((f) => f.trim() !== ""),
@@ -150,10 +143,10 @@ function EditPaket() {
                     <div>
                         <Label>Kategori</Label>
                         <Select
-                            name="kategori"
-                            required
+                            // name="kategori" <-- Dihapus
+                            // required <-- Dihapus
                             value={kategori}
-                            onChange={handleKategoriChange} 
+                            onChange={handleKategoriChange}
                             placeholder="Pilih Kategori"
                             options={[
                                 { label: "Design Interior", value: "Interior" },
