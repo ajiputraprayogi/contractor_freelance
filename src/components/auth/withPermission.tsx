@@ -7,7 +7,7 @@ import React from "react";
 function ForbiddenPage({ message }: { message?: string }) {
   return (
     <div className="flex flex-col items-center justify-center min-h-screen text-center">
-      <h1 className="text-6xl font-bold text-gray-700">403</h1>
+      <h2 className="text-6xl font-bold text-gray-700">403</h2>
       <p className="mt-4 text-lg text-gray-500">
         {message || "Anda tidak memiliki akses ke halaman ini."}
       </p>

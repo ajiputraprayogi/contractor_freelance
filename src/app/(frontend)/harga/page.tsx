@@ -40,9 +40,9 @@ export default function PricingPage() {
     <main className="min-h-screen bg-[#F7F4EF] py-20 px-6">
       {/* Header */}
       <div className="text-center mb-10">
-        <h1 className="text-4xl md:text-5xl font-semibold text-[#2f3542] mb-4 mt-4">
+        <h2 className="text-4xl md:text-5xl font-semibold text-[#2f3542] mb-4 mt-4">
           Paket Desain LANARA
-        </h1>
+        </h2>
         <p className="text-gray-600 max-w-2xl mx-auto">
           Pilih jenis layanan sesuai kebutuhan desain Anda — eksterior, interior, atau full package signature.
         </p>

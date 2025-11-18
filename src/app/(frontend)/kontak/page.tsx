@@ -79,7 +79,7 @@ export default function ContactPage() {
                   />
                 </div>
                 <div>
-                  <h1 className="text-2xl font-semibold">Lanara Design</h1>
+                  <h2 className="text-2xl font-semibold">Lanara Design</h2>
                   <p className="text-sm opacity-70">
                     Modern architecture & interior design
                   </p>
