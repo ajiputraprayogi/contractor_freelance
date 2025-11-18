@@ -41,7 +41,7 @@ export default function LayananPage() {
     <main className="min-h-screen flex flex-col items-center justify-center px-6 py-16 mt-[1.5rem] md:mt-[3rem]" style={{ backgroundColor: "#F7F4EF", color: "#2E2B25" }}>
       {/* Heading */}
       <div className="text-center mb-8">
-        <h1 className="text-3xl md:text-5xl font-semibold tracking-tight mb-3 text-[#2E2B25] mt-5">Jenis Desain</h1>
+        <h2 className="text-3xl md:text-5xl font-semibold tracking-tight mb-3 text-[#2E2B25] mt-5">Jenis Desain</h2>
         <p className="text-sm md:text-base text-[#2E2B25]/70">Harmoni antara fungsi, estetika, dan identitas ruang.</p>
       </div>
 
@@ -108,7 +108,7 @@ export default function LayananPage() {
       {/* Step Section */}
       <section>
         <div className="text-center mb-12 mt-12 md:mt-20">
-          <h1 className="text-3xl md:text-5xl font-semibold tracking-tight mb-3 text-[#2E2B25]">Tahapan Order</h1>
+          <h2 className="text-3xl md:text-5xl font-semibold tracking-tight mb-3 text-[#2E2B25]">Tahapan Order</h2>
           <p className="text-sm md:text-base text-[#2E2B25]/70">Berikut skema layanan yang tersedia</p>
         </div>
         <StepSection />

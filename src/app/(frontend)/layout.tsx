@@ -12,27 +12,27 @@ const outfit = Outfit({
 });
 
 export const metadata: Metadata = {
-  title: "LANARA Desain",
+  title: "Lanara Desain",
   description: "Jasa Desain Arsitek Kediri",
-  keywords: ["arsitektur", "Desain", "interior", "LANARA", "arsitektur modern"],
-  authors: [{ name: "LANARA Desain" }],
-  creator: "LANARA Desain",
-  publisher: "LANARA Desain",
-  metadataBase: new URL("https://www.lanaraDesain.com"), // ganti sesuai domain
+  keywords: ["arsitektur", "Desain", "interior", "Lanara", "arsitektur modern"],
+  authors: [{ name: "Lanara Desain" }],
+  creator: "Lanara Desain",
+  publisher: "Lanara Desain",
+  metadataBase: new URL("https://www.LanaraDesain.com"),
   alternates: {
     canonical: "/",
   },
   openGraph: {
-    title: "LANARA Desain",
+    title: "Lanara Desain",
     description: "Solusi Desain Arsitek Murah & Berkualitas",
-    url: "https://www.lanaraDesain.com",
-    siteName: "LANARA Desain",
+    url: "https://www.LanaraDesain.com",
+    siteName: "Lanara Desain",
     images: [
       {
         url: "/images/brand/logos.png",
         width: 1200,
         height: 630,
-        alt: "LANARA Desain Logo",
+        alt: "Lanara Desain Logo",
       },
     ],
     locale: "en_US",
@@ -40,9 +40,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "LANARA Desain",
+    title: "Lanara Desain",
     description: "Solusi Modern Jasa Arsitek",
-    creator: "@lanaraDesain",
+    creator: "@LanaraDesain",
     images: ["/images/brand/logos.png"],
   },
   icons: {

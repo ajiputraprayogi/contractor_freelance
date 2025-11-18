@@ -43,9 +43,9 @@ export default function PortfolioPage() {
       {/* Header */}
       <div className="text-center mb-12">
         <p className="text-sm tracking-[3px] text-[#BFA98E] uppercase">Koleksi Desain</p>
-        <h1 className="text-4xl md:text-5xl font-semibold text-[#2E2B25]">
+        <h2 className="text-4xl md:text-5xl font-semibold text-[#2E2B25]">
           Portfolio LANARA Design
-        </h1>
+        </h2>
         <p className="text-gray-600 mt-4 max-w-2xl mx-auto">
           Temukan berbagai inspirasi desain arsitektur dan interior yang telah kami buat — setiap proyek membawa karakter unik dengan sentuhan modern minimalis.
         </p>
