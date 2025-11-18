@@ -5,9 +5,10 @@ import Link from "next/link";
 
 type Package = {
   name: string;
-  price: string;
-  desc: string;
+  harga: string;
+  detail: string;
   features: string[];
+  kategori: string;
   button: string;
   popular?: boolean;
   discount?: boolean;
@@ -22,10 +23,26 @@ export default function PricingPage() {
     async function fetchPackages() {
       setLoading(true);
       try {
-        const res = await fetch(`/dummyapi/harga?tab=${activeTab}`);
+        const res = await fetch(`/api/paket?tab=${activeTab}`);
         if (!res.ok) throw new Error("Gagal memuat paket");
-        const data: Package[] = await res.json();
-        setPackages(data);
+        const data = await res.json();
+
+        // MAP API → MODEL FRONTEND
+        const mapped: Package[] = data.map((item: any) => ({
+          name: item.name,
+          harga: item.harga,
+          detail: item.detail,
+          kategori: item.kategori,
+          features: item.paket_fitur ?? [],
+          button: `Pesan ${item.kategori}`,
+        }));
+
+        // FILTER by kategori sesuai tab
+        const filtered = mapped.filter(
+          (pkg) => pkg.kategori.toLowerCase() === activeTab
+        );
+
+        setPackages(filtered);
       } catch (error) {
         console.error(error);
       } finally {
@@ -79,20 +96,20 @@ export default function PricingPage() {
           {packages.map((pkg, i) => (
             <div
               key={i}
-              className={`relative flex flex-col justify-between rounded-2xl bg-[#F7F4EF] transition p-8 border ${
-                pkg.popular ? "border-gray-400" : "border-gray-400"
-              }`}
+              className="relative flex flex-col justify-between rounded-2xl bg-[#F7F4EF] transition p-8 border border-gray-400"
             >
-              {pkg.discount && (
-                <span className="absolute top-4 right-4 bg-red-500 text-white text-xs font-medium px-3 py-1 rounded-full">
+              {/* BADGE DISKON KHUSUS SIGNATURE */}
+              {pkg.kategori.toLowerCase() === "signature" && (
+                <span className="absolute top-4 right-4 bg-red-600 text-white text-xs font-semibold px-3 py-1 rounded-full shadow-md">
                   Diskon 20%
                 </span>
               )}
 
               <div>
                 <h3 className="text-xl font-semibold text-[#2f3542] mb-2">{pkg.name}</h3>
-                <p className="text-2xl font-bold text-[#2f3542] mb-2">{pkg.price}</p>
-                <p className="text-gray-500 text-sm mb-6">{pkg.desc}</p>
+                <p className="text-2xl font-bold text-[#2f3542] mb-2">{pkg.harga}</p>
+                <p className="text-gray-500 text-sm mb-6">{pkg.detail}</p>
+
                 <ul className="text-left text-gray-700 space-y-2 mb-6">
                   {pkg.features.map((f, idx) => (
                     <li key={idx} className="flex items-start gap-2">
@@ -103,7 +120,7 @@ export default function PricingPage() {
                 </ul>
               </div>
 
-              {/* Animated Button */}
+              {/* BUTTON ANIMATED */}
               <div className="flex justify-center mt-4">
                 <button className="mt-4 cursor-pointer group relative inline-flex items-center justify-center overflow-hidden rounded-md bg-[#2f3542] w-auto transition-all duration-500 hover:scale-[1.03]">
                   <div className="inline-flex h-12 translate-y-0 items-center justify-center px-8 text-white transition-all duration-500 group-hover:-translate-y-[150%]">

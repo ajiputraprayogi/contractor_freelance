@@ -13,7 +13,7 @@ interface PortfolioItem {
   type: string;
 }
 
-const types = ["all", "Enscape", "Kamar", "Wc"];
+const types = ["all", "Interior Hunian", "Kamar", "Wc"];
 
 export default function InteriorPortfolioPage() {
   const [portfolios, setPortfolios] = useState<PortfolioItem[]>([]);
@@ -53,7 +53,7 @@ export default function InteriorPortfolioPage() {
           Portfolio LANARA Design
         </h2>
         <p className="text-gray-600 mt-4 max-w-2xl mx-auto">
-          Jelajahi inspirasi desain interior modern untuk kamar, wc, dan visualisasi Enscape
+          Jelajahi inspirasi desain interior modern dan visualisasi Enscape
         </p>
       </div>
 
