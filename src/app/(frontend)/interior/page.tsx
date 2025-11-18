@@ -49,9 +49,9 @@ export default function InteriorPortfolioPage() {
         <p className="text-sm tracking-[3px] text-[#BFA98E] uppercase">
           Koleksi Desain Interior
         </p>
-        <h1 className="text-4xl md:text-5xl font-semibold text-[#2E2B25]">
+        <h2 className="text-4xl md:text-5xl font-semibold text-[#2E2B25]">
           Portfolio LANARA Design
-        </h1>
+        </h2>
         <p className="text-gray-600 mt-4 max-w-2xl mx-auto">
           Jelajahi inspirasi desain interior modern untuk kamar, wc, dan visualisasi Enscape
         </p>

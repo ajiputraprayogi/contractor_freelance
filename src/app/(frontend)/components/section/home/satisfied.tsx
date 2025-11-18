@@ -71,9 +71,9 @@ export default function TentangKamiPage() {
         className="text-center max-w-3xl"
         ref={ref}
       >
-        <h1 className="text-3xl md:text-4xl font-semibold mb-4">
+        <h2 className="text-3xl md:text-4xl font-semibold mb-4">
           Pencapaian Kami
-        </h1>
+        </h2>
         <p className="text-base opacity-80 mb-10">
           Kami telah bertahun-tahun memberikan layanan desain arsitektur dan interior berkualitas tinggi. 
           Berikut beberapa pencapaian yang telah kami raih sejauh ini.
