@@ -14,7 +14,7 @@ export default function Navbar({
     // { label: "Harga & Layanan", href: "/pricing" },
     // { label: "Portfolio", href: "/portfolio" },
     {
-      label: "Portfolio",
+      label: "Portofolio",
       dropdown: [
         // { label: "Desain Rumah", href: "/rumah" },
         { label: "Desain Interior", href: "/interior" },

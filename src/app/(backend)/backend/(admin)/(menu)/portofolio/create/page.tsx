@@ -14,9 +14,11 @@ import Select from "@/components/form/Select";
 // Definisi Opsi Tipe berdasarkan Kategori
 const CATEGORY_TO_TYPES: { [key: string]: { label: string; value: string }[] } = {
   "Design Interior": [
-    { label: "Enscape", value: "Enscape" },
-    { label: "Kamar", value: "Kamar" },
-    { label: "WC", value: "WC" },
+    { label: "Interior Hunian", value: "Interior Hunian" },
+    { label: "Interior Cafe", value: "Interior Cafe" },
+    { label: "Interior Hotel", value: "Interior Hotel" },
+    { label: "Interior Kantor", value: "Interior Kantor" },
+    { label: "Interior Tempat Ibadah", value: "Interior Tempat Ibadah" },
   ],
   "Design Eksterior": [
     { label: "Perumahan", value: "Perumahan" },
@@ -180,7 +182,7 @@ function CreatePortofolio() {
           {/* Input Gambar */}
           <div>
             <Label>Upload Gambar</Label>
-            <FileInput onChange={handleFileChange} className="custom-class" accept=".png, .webp"/>
+            <FileInput onChange={handleFileChange} className="custom-class" accept=".png, .webp" />
             {previewUrl && (
               <img
                 src={previewUrl}
