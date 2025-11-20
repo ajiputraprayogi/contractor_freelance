@@ -13,7 +13,7 @@ interface PortfolioItem {
   type: string;
 }
 
-const types = ["all", "Interior Hunian", "Kamar", "Wc"];
+const types = ["all", "Interior Hunian", "Interior Cafe", "Interior Hotel", "Interior Kantor", "Interior Tempat Ibadah"];
 
 export default function InteriorPortfolioPage() {
   const [portfolios, setPortfolios] = useState<PortfolioItem[]>([]);
