@@ -37,9 +37,9 @@ function Counter({ from, to, duration = 5, suffix = "", start }: CounterProps) {
 
 export default function TentangKamiPage() {
   const stats = [
-    { label: "Klien Puas", from: 0, to: 120 },
-    { label: "Tahun Pengalaman", from: 0, to: 8 },
-    { label: "Proyek Selesai", from: 0, to: 250 },
+    { label: "Klien Puas", from: 0, to: 280 },
+    { label: "Tahun Pengalaman", from: 0, to: 4 },
+    { label: "Proyek Selesai", from: 0, to: 310 },
   ];
 
   const [resetKey, setResetKey] = useState(0);
